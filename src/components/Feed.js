@@ -6,53 +6,176 @@ import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import laggy from '../libs/swr-laggy-middleware';
 
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import TwitterIcon from '@mui/icons-material/Twitter';
+
 export function ipfsToGatewayUri(ipfsUri) {
   const ipfsHash = ipfsUri.replace('ipfs://', '');
   return `https://ipfs.io/ipfs/${ipfsHash}`;
 }
 
+export function shortenTzAddress(address) {
+  return `${address.substr(0, 5)}…${address.substr(-5)}`;
+}
+
 export function formatTz(amount) {
   if (!isNumber(amount)) {
-    return '–';
+    return '';
   }
 
   const amountFixed = (amount / 1000000).toFixed(2);
-  return `${amountFixed.endsWith('.00') ? amountFixed.slice(0, -3) : amountFixed} ꜩ`;
+  //return `${amountFixed.endsWith('.00') ? amountFixed.slice(0, -3) : amountFixed} ꜩ`;
+  return `${amountFixed} ꜩ`;
 }
 
 function FeedItem({ event }) {
   return (
-    <li>
-      <strong>type:</strong> {event.type}
-      <br />
-      <strong>is sale:</strong> {event.implements === 'SALE' ? 'yes' : 'no'}
-      <br />
-      <strong>timestamp:</strong> {event.timestamp}
-      <br />
-      <strong>metadata status:</strong> {get(event, 'token.metadata_status')}
-      <br />
-      <strong>artist:</strong> {get(event, 'token.artist_profile.alias') || get(event, 'token.artist_address')}
-      <br />
-      <strong>platform:</strong> {get(event, 'token.platform')}
-      <br />
-      {event.price && (
-        <>
-          <strong>price:</strong> {formatTz(event.price)}
-          <br />
-        </>
-      )}
-      {get(event, 'token.display_uri') && (
-        <img
-          src={ipfsToGatewayUri(get(event, 'token.display_uri'))}
-          alt={get(event, 'token.name')}
-          loading="lazy"
-          style={{
-            width: '200px',
-            height: 'auto',
+    <Paper 
+      elevation={1}
+      sx={{
+        overflow: 'hidden',
+        mb: '1vw',
+      }}
+    >
+      {/* divider={<Divider orientation="vertical" flexItem />} */}
+      <Stack 
+        direction="row" 
+        spacing={0}
+      >
+        <Box
+          sx={{
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '6vw',
+            height: '6vw',
+            minWidth: '6vw',
+            minHeight: '6vw',
+            maxWidth: '6vw',
+            maxHeight: '6vw',
+            lineHeight: 0,
           }}
-        />
-      )}
-    </li>
+        >
+          {get(event, 'token.display_uri') && (
+            <img
+              src={ipfsToGatewayUri(get(event, 'token.display_uri'))}
+              alt={get(event, 'token.name')}
+              loading="lazy"
+              style={{
+                width: '6vw',
+                height: '6vw',
+                objectFit: 'cover',
+              }}
+            />
+          )}
+        </Box>
+        
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mr: '2vw',
+            ml: '2vw',
+            width: '30vw',
+          }}
+        >
+          <Typography variant="body2" component="p">
+            <Chip 
+              label="SWAP" 
+              color="primary" 
+              sx={{
+                mr: 2,
+              }}
+            />
+            2 minutes ago by <Link href=""><Typography variant="body2" component="strong" color="primary">{get(event, 'token.artist_profile.alias') || shortenTzAddress(get(event, 'token.artist_address'))}</Typography></Link>
+            <IconButton 
+              color="primary" 
+              size="small" 
+              href=""
+              sx={{
+                ml: 0.5,
+              }}
+            >
+              <TwitterIcon fontSize="inherit" />
+            </IconButton>
+            {/*
+              {event.type}
+              {event.implements === 'SALE' ? 'yes' : 'no'}
+              {event.timestamp}
+              {get(event, 'token.metadata_status')}
+            */}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mr: '2vw',
+            ml: '2vw',
+            width: '29vw',
+          }}
+        >
+          <Chip 
+            label={get(event, 'token.platform')}
+            color="secondary" 
+            variant="outlined"
+            sx={{
+              mr: 2,
+            }}
+          />
+          <Chip 
+            label="20 Editions"
+            color="secondary" 
+            variant="outlined"
+            sx={{
+              mr: 2,
+            }}
+          />
+          <Chip 
+            label="Primary"
+            color="secondary" 
+            variant="outlined"
+            sx={{
+              mr: 2,
+            }}
+          />
+        </Box>       
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            mr: '2vw',
+            ml: '2vw',
+            width: '20vw',
+          }}
+        >
+          <Box
+            sx={{
+              mr: 4,
+            }}
+          >
+            {formatTz(event.price)}
+          </Box>
+          <Button 
+            variant="contained" 
+            size="small"
+            >
+              Buy
+            </Button>
+        </Box>
+      </Stack>
+    </Paper>
   );
 }
 
@@ -81,11 +204,15 @@ function Feed() {
 
   return (
     <div className="Feed">
-      <ul>
+      <Box 
+        sx={{ 
+          m: '4vw', 
+        }}
+      >
         {(data || []).map((event) => (
           <FeedItem key={event.id} event={event} />
         ))}
-      </ul>
+      </Box>
     </div>
   );
 }

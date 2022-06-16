@@ -1,0 +1,71 @@
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet_portrait: 750,
+      tablet_short: 900,
+      tablet: 1050,
+      laptop: 1400,
+      desktop: 1700,
+      maximum: 2050,
+    },
+  },
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#10b981',
+    },
+    secondary: {
+      main: '#939ef5',
+    },
+    background: {
+      default: '#0b0f19',
+      paper: '#111827',
+    },
+    info: {
+      main: '#FFFFFF',
+    },
+    success: {
+      main: '#FFFFFF',
+    },
+    warning: {
+      main: '#FFFFFF',
+    },
+    error: {
+      main: '#FFFFFF',
+    },
+  },
+  components: {
+    MuiChip: {
+      styleOverrides: {
+        label: {
+          fontSize: '0.8rem',
+          fontWeight: '600',
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+        },
+      },
+    },
+  },
+});
+
+theme.typography.h1 = {
+  fontSize: '2.8rem',
+  [theme.breakpoints.down('tablet_portrait')]: {
+    fontSize: '1.6rem',
+  },
+};
+
+theme.typography.body2 = {
+  fontSize: '0.9rem',
+  lineHeight: 2,
+};
+
+export default theme;
