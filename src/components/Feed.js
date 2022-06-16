@@ -1,11 +1,4 @@
-import { useState } from 'react';
-import useSWR from 'swr';
-import keyBy from 'lodash/keyBy';
-import sortBy from 'lodash/sortBy';
 import get from 'lodash/get';
-import isNumber from 'lodash/isNumber';
-import laggy from '../libs/swr-laggy-middleware';
-
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -15,29 +8,11 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import TwitterIcon from '@mui/icons-material/Twitter';
-
-export function ipfsToGatewayUri(ipfsUri) {
-  const ipfsHash = ipfsUri.replace('ipfs://', '');
-  return `https://ipfs.io/ipfs/${ipfsHash}`;
-}
-
-export function shortenTzAddress(address) {
-  return `${address.substr(0, 5)}…${address.substr(-5)}`;
-}
-
-export function formatTz(amount) {
-  if (!isNumber(amount)) {
-    return '';
-  }
-
-  const amountFixed = (amount / 1000000).toFixed(2);
-  //return `${amountFixed.endsWith('.00') ? amountFixed.slice(0, -3) : amountFixed} ꜩ`;
-  return `${amountFixed} ꜩ`;
-}
+import { ipfsToGatewayUri, formatTz, shortenTzAddress } from '../libs/utils';
 
 function FeedItem({ event }) {
   return (
-    <Paper 
+    <Paper
       elevation={1}
       sx={{
         overflow: 'hidden',
@@ -45,10 +20,7 @@ function FeedItem({ event }) {
       }}
     >
       {/* divider={<Divider orientation="vertical" flexItem />} */}
-      <Stack 
-        direction="row" 
-        spacing={0}
-      >
+      <Stack direction="row" spacing={0}>
         <Box
           sx={{
             overflow: 'hidden',
@@ -77,7 +49,7 @@ function FeedItem({ event }) {
             />
           )}
         </Box>
-        
+
         <Box
           sx={{
             display: 'flex',
@@ -88,17 +60,24 @@ function FeedItem({ event }) {
           }}
         >
           <Typography variant="body2" component="p">
-            <Chip 
-              label="SWAP" 
-              color="primary" 
+            <Chip
+              label="SWAP"
+              color="primary"
               sx={{
                 mr: 2,
               }}
             />
-            2 minutes ago by <Link href=""><Typography variant="body2" component="strong" color="primary">{get(event, 'token.artist_profile.alias') || shortenTzAddress(get(event, 'token.artist_address'))}</Typography></Link>
-            <IconButton 
-              color="primary" 
-              size="small" 
+            2 minutes ago by{' '}
+            {get(event, 'token.artist_address') ? (
+              <Link href="">
+                <Typography variant="body2" component="strong" color="primary">
+                  {get(event, 'token.artist_profile.alias') || shortenTzAddress(get(event, 'token.artist_address'))}
+                </Typography>
+              </Link>
+            ) : null}
+            <IconButton
+              color="primary"
+              size="small"
               href=""
               sx={{
                 ml: 0.5,
@@ -124,31 +103,31 @@ function FeedItem({ event }) {
             width: '29vw',
           }}
         >
-          <Chip 
+          <Chip
             label={get(event, 'token.platform')}
-            color="secondary" 
+            color="secondary"
             variant="outlined"
             sx={{
               mr: 2,
             }}
           />
-          <Chip 
+          <Chip
             label="20 Editions"
-            color="secondary" 
+            color="secondary"
             variant="outlined"
             sx={{
               mr: 2,
             }}
           />
-          <Chip 
+          <Chip
             label="Primary"
-            color="secondary" 
+            color="secondary"
             variant="outlined"
             sx={{
               mr: 2,
             }}
           />
-        </Box>       
+        </Box>
 
         <Box
           sx={{
@@ -167,49 +146,24 @@ function FeedItem({ event }) {
           >
             {formatTz(event.price)}
           </Box>
-          <Button 
-            variant="contained" 
-            size="small"
-            >
-              Buy
-            </Button>
+          <Button variant="contained" size="small">
+            Buy
+          </Button>
         </Box>
       </Stack>
     </Paper>
   );
 }
 
-function Feed() {
-  const [prevEvents, setPrevEvents] = useState([]);
-  const { data } = useSWR(
-    'feed',
-    async () => {
-      const response = await fetch('https://livefeed-api.teztok.com/feed');
-      const newEvents = (await response.json()).data.events;
-
-      const newEventsById = keyBy(newEvents, 'id');
-      const prevEventsById = keyBy(prevEvents, 'id');
-      const events = sortBy(Object.values({ ...prevEventsById, ...newEventsById }), 'opid').reverse();
-      setPrevEvents(events);
-
-      return events;
-    },
-    {
-      refreshInterval: 1000,
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      use: [laggy],
-    }
-  );
-
+function Feed({ events }) {
   return (
     <div className="Feed">
-      <Box 
-        sx={{ 
-          m: '4vw', 
+      <Box
+        sx={{
+          m: '4vw',
         }}
       >
-        {(data || []).map((event) => (
+        {(events || []).map((event) => (
           <FeedItem key={event.id} event={event} />
         ))}
       </Box>
