@@ -3,33 +3,26 @@ import useSWR from 'swr';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage } from '../libs/utils';
+import {
+  DEFAULT_FILTERS,
+  MINT_EVENTS,
+  SWAP_EVENTS,
+  OFFER_EVENTS,
+  EVENT_CATEGORY_MINT,
+  EVENT_CATEGORY_SWAP,
+  EVENT_CATEGORY_SALE,
+  EVENT_CATEGORY_OFFER,
+} from '../constants';
 import Feed from './Feed';
 import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
 
-const DEFAULT_FILTERS = {
-  showMints: true,
-  showSwaps: true,
-  showSales: false,
-};
-
-const MINT_EVENTS = [
-  '8BID_8X8_COLOR_MINT',
-  '8BID_24X24_COLOR_MINT',
-  '8BID_24X24_MONOCHROME_MINT',
-  'HEN_MINT',
-  'VERSUM_MINT',
-  'FX_MINT_ISSUER_V3',
-  'OBJKT_MINT_ARTIST',
-];
-
-const SWAP_EVENTS = ['8BID_8X8_COLOR_SWAP', '8BID_24X24_COLOR_SWAP', 'HEN_SWAP_V2', 'TEIA_SWAP', 'VERSUM_SWAP', 'FX_LISTING'];
-
 function filterEvents(events, filters) {
   return events
-    .filter((event) => (!filters.showMints ? !MINT_EVENTS.includes(event.type) : true))
-    .filter((event) => (!filters.showSwaps ? !SWAP_EVENTS.includes(event.type) : true))
-    .filter((event) => (!filters.showSales ? event.implements !== 'SALE' : true));
+    .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
+    .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
+    .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
+    .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true));
 }
 
 function App() {
@@ -44,7 +37,27 @@ function App() {
 
       const newEventsById = keyBy(newEvents, 'id');
       const prevEventsById = keyBy(prevEvents, 'id');
-      const events = sortBy(Object.values({ ...prevEventsById, ...newEventsById }), 'opid').reverse();
+      const events = sortBy(Object.values({ ...prevEventsById, ...newEventsById }), 'opid')
+        .reverse()
+        .map((event) => {
+          let category;
+
+          if (event.implements === 'SALE') {
+            category = EVENT_CATEGORY_SALE;
+          } else if (MINT_EVENTS.includes(event.type)) {
+            category = EVENT_CATEGORY_MINT;
+          } else if (SWAP_EVENTS.includes(event.type)) {
+            category = EVENT_CATEGORY_SWAP;
+          } else if (OFFER_EVENTS.includes(event.type)) {
+            category = EVENT_CATEGORY_OFFER;
+          }
+
+          return {
+            ...event,
+            category,
+          };
+        });
+
       setPrevEvents(events);
 
       return events;

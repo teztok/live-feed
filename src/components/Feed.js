@@ -61,7 +61,7 @@ function FeedItem({ event }) {
         >
           <Typography variant="body2" component="p">
             <Chip
-              label="SWAP"
+              label={event.category}
               color="primary"
               sx={{
                 mr: 2,
@@ -112,7 +112,7 @@ function FeedItem({ event }) {
             }}
           />
           <Chip
-            label="20 Editions"
+            label={get(event, 'token.editions')}
             color="secondary"
             variant="outlined"
             sx={{

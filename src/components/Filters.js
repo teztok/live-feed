@@ -27,6 +27,13 @@ function Filters({ filters, onChange }) {
           }}
           label="Sales"
         />
+        <FormControlLabel
+          control={<Switch checked={filters.showOffers} />}
+          onChange={() => {
+            onChange({ ...filters, showOffers: !filters.showOffers });
+          }}
+          label="Offers"
+        />
       </FormGroup>
     </div>
   );
