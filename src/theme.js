@@ -22,7 +22,7 @@ const theme = createTheme({
     },
     background: {
       default: '#0b0f19',
-      paper: '#111827',
+      paper: '#1d2332',
     },
     info: {
       main: '#FFFFFF',
@@ -31,7 +31,7 @@ const theme = createTheme({
       main: '#FFFFFF',
     },
     warning: {
-      main: '#FFFFFF',
+      main: '#FFCC00',
     },
     error: {
       main: '#FFFFFF',
@@ -41,7 +41,7 @@ const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         label: {
-          fontSize: '0.8rem',
+          fontSize: '0.7rem',
           fontWeight: '600',
         },
       },
@@ -51,6 +51,30 @@ const theme = createTheme({
         root: {
           textDecoration: 'none',
         },
+      },
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          borderCollapse: 'separate',
+          borderSpacing: '0px 15px',
+        }
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#1d2332',
+        }
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          overflow: 'hidden',
+          padding: 0,
+          borderBottom: 0,
+        }
       },
     },
   },

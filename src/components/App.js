@@ -16,6 +16,8 @@ import {
 import Feed from './Feed';
 import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function filterEvents(events, filters) {
   return events
@@ -73,7 +75,19 @@ function App() {
   const feed = useMemo(() => <Feed events={filterEvents(data || [], deferredFilters)} />, [deferredFilters, data]);
 
   if (!data) {
-    return <div>loading...</div>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100vw',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress color="primary" />
+      </Box>
+    );
   }
 
   return (
