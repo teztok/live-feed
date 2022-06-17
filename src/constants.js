@@ -24,3 +24,5 @@ export const EVENT_CATEGORY_MINT = 'MINT';
 export const EVENT_CATEGORY_SWAP = 'SWAP';
 export const EVENT_CATEGORY_SALE = 'SALE';
 export const EVENT_CATEGORY_OFFER = 'OFFER';
+
+export const TEZTOK_API = 'https://api.teztok.com/v1/graphql';

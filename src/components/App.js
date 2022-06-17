@@ -14,6 +14,7 @@ import {
   EVENT_CATEGORY_OFFER,
 } from '../constants';
 import Feed from './Feed';
+import UserPicker from './UserPicker';
 import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
 import Box from '@mui/material/Box';
@@ -92,6 +93,7 @@ function App() {
 
   return (
     <div className="App">
+      <UserPicker />
       <Filters
         filters={filters}
         onChange={(newFilters) => {
