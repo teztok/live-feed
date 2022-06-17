@@ -58,6 +58,7 @@ function FeedItem({ event }) {
               />
             )}
             {/* */}
+            {/* 
             <Skeleton 
               variant="rectangular" 
               sx={{ 
@@ -66,6 +67,7 @@ function FeedItem({ event }) {
                 bgcolor: '#232a3b',
               }}
             />
+            */}
           </Box>
         </TableCell>
 
@@ -185,7 +187,6 @@ function FeedItem({ event }) {
             <Button 
               variant="contained" 
               size="small"
-              disabled
             >
               Buy
             </Button>
