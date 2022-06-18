@@ -26,6 +26,13 @@ function Filters({ filters, onChange }) {
           label="Swaps"
         />
         <FormControlLabel
+          control={<Switch disabled={!filters.showSwaps} checked={filters.showSecondarySwaps} />}
+          onChange={() => {
+            onChange({ ...filters, showSecondarySwaps: !filters.showSecondarySwaps });
+          }}
+          label="Secondary Swaps"
+        />
+        <FormControlLabel
           control={<Switch checked={filters.showSales} />}
           onChange={() => {
             onChange({ ...filters, showSales: !filters.showSales });

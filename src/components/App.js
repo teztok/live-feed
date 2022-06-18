@@ -36,6 +36,7 @@ function filterEvents(events, filters) {
   return events
     .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
+    .filter((event) => (event.category === EVENT_CATEGORY_SWAP && !filters.showSecondarySwaps ? !event.isSecondarySwap : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
     .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
@@ -60,12 +61,14 @@ function App() {
         .reverse()
         .map((event) => {
           let category;
+          let isSecondarySwap;
 
           if (event.implements === 'SALE') {
             category = EVENT_CATEGORY_SALE;
           } else if (MINT_EVENTS.includes(event.type)) {
             category = EVENT_CATEGORY_MINT;
           } else if (SWAP_EVENTS.includes(event.type)) {
+            isSecondarySwap = get(event, 'token.artist_address') !== event.seller_address;
             category = EVENT_CATEGORY_SWAP;
           } else if (OFFER_EVENTS.includes(event.type)) {
             category = EVENT_CATEGORY_OFFER;
@@ -74,6 +77,7 @@ function App() {
           return {
             ...event,
             category,
+            isSecondarySwap,
           };
         });
 

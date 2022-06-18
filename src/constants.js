@@ -1,7 +1,7 @@
 export const DEFAULT_FILTERS = {
   showMints: true,
   showSwaps: true,
-  showSecondarySwaps: true, // TODO
+  showSecondarySwaps: false,
   showSales: false,
   showOffers: false,
   allowlistOnly: false,
