@@ -5,10 +5,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import UserPicker from './UserPicker';
 
 function Filters({ filters, onChange }) {
   return (
-    <div className="Filters" style={{ maxWidth: 200 }}>
+    <div className="Filters" style={{ maxWidth: 300 }}>
       <FormGroup>
         <FormControlLabel
           control={<Switch checked={filters.showMints} />}
@@ -55,6 +56,12 @@ function Filters({ filters, onChange }) {
             <MenuItem value={1000}>1000</MenuItem>
           </Select>
         </FormControl>
+        <UserPicker
+          addresses={filters.followedAddresses}
+          onChange={(addresses) => {
+            onChange({ ...filters, followedAddresses: addresses });
+          }}
+        />
       </FormGroup>
     </div>
   );

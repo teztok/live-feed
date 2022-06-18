@@ -14,7 +14,6 @@ import {
   EVENT_CATEGORY_OFFER,
 } from '../constants';
 import Feed from './Feed';
-import UserPicker from './UserPicker';
 import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
 import Box from '@mui/material/Box';
@@ -26,11 +25,13 @@ function filterEvents(events, filters) {
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
-    .slice(0, filters.itemLimit)
+    .slice(0, filters.itemLimit);
 }
 
 function App() {
-  const [filters, setFilters] = useState(getFiltersFromLocalStorage() ? { ...DEFAULT_FILTERS, ...getFiltersFromLocalStorage() } : DEFAULT_FILTERS);
+  const [filters, setFilters] = useState(
+    getFiltersFromLocalStorage() ? { ...DEFAULT_FILTERS, ...getFiltersFromLocalStorage() } : DEFAULT_FILTERS
+  );
   const [prevEvents, setPrevEvents] = useState([]);
   const deferredFilters = useDeferredValue(filters);
   const { data } = useSWR(
@@ -94,7 +95,6 @@ function App() {
 
   return (
     <div className="App">
-      <UserPicker />
       <Filters
         filters={filters}
         onChange={(newFilters) => {
