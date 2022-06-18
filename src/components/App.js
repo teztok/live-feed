@@ -2,6 +2,7 @@ import { useState, useDeferredValue, useMemo } from 'react';
 import useSWR from 'swr';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
+import get from 'lodash/get';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage } from '../libs/utils';
 import {
   DEFAULT_FILTERS,
@@ -26,12 +27,26 @@ import IconButton from '@mui/material/IconButton';
 
 const drawerWidth = 400;
 
+function isEventOfFollowedAddress(event, followedAddresses) {
+  return followedAddresses.some((address) => {
+    return (
+      get(event, 'artist_address') === address ||
+      get(event, 'buyer_address') === address ||
+      get(event, 'token.artist_address') === address ||
+      (get(event, 'token.creators') || []).includes(address) ||
+      (get(event, 'token.royalty_receivers') || []).map(({ receiver_address }) => receiver_address).includes(address)
+    );
+  });
+}
+
 function filterEvents(events, filters) {
   return events
     .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
+    .filter((event) => (event.category === EVENT_CATEGORY_SWAP && !filters.showSecondarySwaps ? !event.isSecondarySwap : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
+    .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);
 }
 
@@ -53,12 +68,14 @@ function App() {
         .reverse()
         .map((event) => {
           let category;
+          let isSecondarySwap;
 
           if (event.implements === 'SALE') {
             category = EVENT_CATEGORY_SALE;
           } else if (MINT_EVENTS.includes(event.type)) {
             category = EVENT_CATEGORY_MINT;
           } else if (SWAP_EVENTS.includes(event.type)) {
+            isSecondarySwap = get(event, 'token.artist_address') !== event.seller_address;
             category = EVENT_CATEGORY_SWAP;
           } else if (OFFER_EVENTS.includes(event.type)) {
             category = EVENT_CATEGORY_OFFER;
@@ -67,6 +84,7 @@ function App() {
           return {
             ...event,
             category,
+            isSecondarySwap,
           };
         });
 

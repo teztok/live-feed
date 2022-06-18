@@ -6,10 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
+import Chip from '@mui/material/Chip';
 import UserPicker from './UserPicker';
 
 function Filters({ filters, onChange }) {
@@ -60,72 +60,73 @@ function Filters({ filters, onChange }) {
 
           <Divider />
 
-          <Stack 
-            divider={<Divider orientation="vertical" flexItem />}
-            direction="row" 
-            spacing={2}
+          <Box 
+              sx={{
+              m: 4,
+              ml: 5,
+            }}
           >
-            <Box
+            <Typography 
+              variant="body1" 
+              component="p" 
               sx={{
-                width: '50%',
+                mb: 2,
               }}
             >
-              <Box 
-                 sx={{
-                  m: 4,
-                  ml: 5,
-                }}
-              >
-                <FormControlLabel
-                  control={<Switch checked={filters.showMints} size="small" />}
-                  onChange={() => {
-                    onChange({ ...filters, showMints: !filters.showMints });
-                  }}
-                  label="Mints"
-                  sx={{
-                    mb: 1,
-                  }}
-                />
-                <FormControlLabel
-                  control={<Switch checked={filters.showSwaps} size="small" />}
-                  onChange={() => {
-                    onChange({ ...filters, showSwaps: !filters.showSwaps });
-                  }}
-                  label="Swaps"
-                />
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                width: '50%',
+              <strong>Event filters</strong>
+            </Typography>
+            <FormControlLabel
+              control={<Switch checked={filters.showMints} size="small" />}
+              onChange={() => {
+                onChange({ ...filters, showMints: !filters.showMints });
               }}
-            >
-              <Box 
-                 sx={{
-                  m: 4,
-                  ml: 4,
-                }}
-              >
-                <FormControlLabel
-                  control={<Switch checked={filters.showSales} size="small" />}
-                  onChange={() => {
-                    onChange({ ...filters, showSales: !filters.showSales });
-                  }}
-                  label="Sales"
-                  sx={{
-                    mb: 1,
-                  }}
-                />
-                <FormControlLabel
-                  control={<Switch checked={filters.showOffers} size="small" />}
-                  onChange={() => {
-                    onChange({ ...filters, showOffers: !filters.showOffers });
-                  }}
-                  label="Offers"
-                />
-              </Box>
-            </Box>
-          </Stack>
+              label={<Typography variant="body2" color="textSecondary">Mints</Typography>}
+              sx={{
+                width: '100%',
+              }}
+            />
+            <FormControlLabel
+              control={<Switch checked={filters.showSwaps} size="small" />}
+              onChange={() => {
+                onChange({ ...filters, showSwaps: !filters.showSwaps });
+              }}
+              label={<Typography variant="body2" color="textSecondary">Swaps</Typography>}
+              sx={{
+                width: '100%',
+              }}
+            />
+            <FormControlLabel
+              control={<Switch disabled={!filters.showSwaps} checked={filters.showSecondarySwaps} size="small" />}
+              onChange={() => {
+                onChange({ ...filters, showSecondarySwaps: !filters.showSecondarySwaps });
+              }}
+              label={<Typography variant="body2" color="textSecondary">Swaps <Chip size="small" label="Secondary" variant="outlined" sx={{ ml: 0.5 }}></Chip></Typography>}
+              sx={{
+                width: '100%',
+              }}
+            />
+
+            <FormControlLabel
+              control={<Switch checked={filters.showSales} size="small" />}
+              onChange={() => {
+                onChange({ ...filters, showSales: !filters.showSales });
+              }}
+              label={<Typography variant="body2" color="textSecondary">Sales</Typography>}
+              sx={{
+                width: '100%',
+              }}
+            />
+            <FormControlLabel
+              control={<Switch checked={filters.showOffers} size="small" />}
+              onChange={() => {
+                onChange({ ...filters, showOffers: !filters.showOffers });
+              }}
+              label={<Typography variant="body2" color="textSecondary">Offers</Typography>}
+              sx={{
+                width: '100%',
+              }}
+            />
+          </Box>
 
           <Divider />
           
@@ -134,15 +135,29 @@ function Filters({ filters, onChange }) {
               m: 4,
             }}
           >
-            <Typography 
-              variant="body1" 
-              component="p" 
+            <Box
               sx={{
+                display: 'flex',
                 mb: 3,
               }}
             >
-              <strong>Watchlist</strong>
-            </Typography>
+              <Typography 
+                variant="body1" 
+                component="p" 
+              >
+                <strong>Watchlist</strong>
+              </Typography>
+              <FormControlLabel
+                control={<Switch checked={filters.allowlistOnly} size="small" sx={{ mr: 0 }} />}
+                onChange={() => {
+                  onChange({ ...filters, allowlistOnly: !filters.allowlistOnly });
+                }}
+                sx={{
+                  ml: 'auto',
+                  mr: 0,
+                }}
+              />
+            </Box>
             <UserPicker
               addresses={filters.followedAddresses}
               onChange={(addresses) => {

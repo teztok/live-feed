@@ -77,13 +77,13 @@ function FeedItem({ event }) {
               }}
             >
               {!(event.category === 'MINT') ?
-              <Chip
-                label={event.category}
-                color="primary"
-                sx={{
-                  mr: 2,
-                }}
-              />
+                <Chip
+                  label={event.category}
+                  color="primary"
+                  sx={{
+                    mr: 2,
+                  }}
+                />
               :
                 <Chip
                   label={event.category}
