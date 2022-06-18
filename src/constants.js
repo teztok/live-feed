@@ -4,6 +4,7 @@ export const DEFAULT_FILTERS = {
   showSecondarySwaps: true, // TODO
   showSales: false,
   showOffers: false,
+  allowlistOnly: false,
   itemLimit: 100,
   followedAddresses: [],
 };

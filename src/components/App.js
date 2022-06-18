@@ -2,6 +2,7 @@ import { useState, useDeferredValue, useMemo } from 'react';
 import useSWR from 'swr';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
+import get from 'lodash/get';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage } from '../libs/utils';
 import {
   DEFAULT_FILTERS,
@@ -19,12 +20,25 @@ import laggy from '../libs/swr-laggy-middleware';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
+function isEventOfFollowedAddress(event, followedAddresses) {
+  return followedAddresses.some((address) => {
+    return (
+      get(event, 'artist_address') === address ||
+      get(event, 'buyer_address') === address ||
+      get(event, 'token.artist_address') === address ||
+      (get(event, 'token.creators') || []).includes(address) ||
+      (get(event, 'token.royalty_receivers') || []).map(({ receiver_address }) => receiver_address).includes(address)
+    );
+  });
+}
+
 function filterEvents(events, filters) {
   return events
     .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
+    .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);
 }
 

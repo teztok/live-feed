@@ -39,6 +39,13 @@ function Filters({ filters, onChange }) {
           }}
           label="Offers"
         />
+        <FormControlLabel
+          control={<Switch checked={filters.allowlistOnly} />}
+          onChange={() => {
+            onChange({ ...filters, allowlistOnly: !filters.allowlistOnly });
+          }}
+          label="Allowlist only"
+        />
         <FormControl size="small">
           <InputLabel id="limit">Limit</InputLabel>
           <Select
