@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PaidIcon from '@mui/icons-material/Paid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -41,10 +42,10 @@ function FeedItem({ event }) {
               minHeight: '70px',
               maxWidth: '70px',
               maxHeight: '70px',
+              backgroundColor: '#232a3b',
               lineHeight: 0,
             }}
           >
-            {/* */}
             {get(event, 'token.display_uri') && (
               <img
                 src={ipfsToGatewayUri(get(event, 'token.display_uri'))}
@@ -57,7 +58,6 @@ function FeedItem({ event }) {
                 }}
               />
             )}
-            {/* */}
             {/* 
             <Skeleton 
               variant="rectangular" 
@@ -170,12 +170,11 @@ function FeedItem({ event }) {
               }}
             >
               <Tooltip title="Best Price" arrow placement="top">
-                <CheckCircleIcon 
-                  fontSize="inherit" 
+                <PaidIcon 
                   color="primary" 
                   sx={{
                     mr: 1,
-                    transform: 'translate3d(0,1px,0)',
+                    transform: 'translate3d(0,6px,0)',
                   }}
                 />
               </Tooltip>
