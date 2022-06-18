@@ -11,8 +11,12 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Tooltip from '@mui/material/Tooltip';
+import FormHelperText from '@mui/material/FormHelperText';
+import { shortenTzAddress } from '../libs/utils';
 
 import { TEZTOK_API } from '../constants';
 
@@ -43,21 +47,37 @@ function UserList({ addresses, onAddressRemove }) {
   const { users, isLoading } = useGetUsers(addresses);
 
   if (isLoading) {
-    return 'is loading';
+    return (
+      <Box
+        sx={{
+          mt: 4,
+        }}
+      >
+        
+      </Box>
+    )
   }
 
   return (
-    <List dense>
+    <List 
+      dense
+      sx={{
+        mt: 4,
+      }}
+    >
       {addresses.map((address) => (
         <ListItem
           key={address}
           secondaryAction={
-            <IconButton edge="end" aria-label="delete" onClick={() => onAddressRemove(address)}>
-              <DeleteIcon />
+            <IconButton edge="end" aria-label="delete" size="small" color="primary" onClick={() => onAddressRemove(address)}>
+              <RemoveCircleOutlineIcon fontSize="inherit" />
             </IconButton>
           }
+          dense
         >
-          <ListItemText primary={get(users, [address, 'alias'])} secondary={address} />
+          <Tooltip title={address} enterDelay={500} arrow placement="left">
+            <ListItemText primary={get(users, [address, 'alias']) ? get(users, [address, 'alias']) : ('–')} secondary={shortenTzAddress(address)} />
+          </Tooltip>
         </ListItem>
       ))}
     </List>
@@ -68,17 +88,30 @@ function UserPicker({ addresses, onChange }) {
   const [addressesValue, setAddressesValue] = useState('');
 
   return (
-    <div>
+    <Box>
       <TextField
         id="outlined-multiline-static"
-        label="Addresses"
+        label="Tezos Addresses"
         multiline
+        autoFocus
         rows={4}
         value={addressesValue}
         onChange={(ev) => {
           setAddressesValue(ev.target.value);
         }}
+        sx={{
+          width: '100%',
+        }}
       />
+      <FormHelperText
+        sx={{
+          mt: 2,
+          mr: 2,
+          ml: 2,
+        }}
+      >
+        Insert one or more Tezos addresses in the text field above, separated by commas or by line breaks.
+      </FormHelperText>
       <Button
         onClick={() => {
           const words = addressesValue.match(/\b(\w+)\b/g);
@@ -87,10 +120,14 @@ function UserPicker({ addresses, onChange }) {
 
           onChange(uniq([...validAddresses, ...addresses]));
         }}
-        variant="text"
+        variant="contained"
         disabled={!addressesValue}
+        sx={{
+          mt: 2,
+          width: '100%',
+        }}
       >
-        Add
+        Add to watchlist
       </Button>
       <UserList
         addresses={addresses}
@@ -98,7 +135,7 @@ function UserPicker({ addresses, onChange }) {
           onChange(addresses.filter((address) => address !== removedAddress));
         }}
       />
-    </div>
+    </Box>
   );
 }
 

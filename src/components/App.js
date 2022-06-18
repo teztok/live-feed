@@ -18,6 +18,13 @@ import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Drawer from '@mui/material/Drawer';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+
+const drawerWidth = 400;
 
 function filterEvents(events, filters) {
   return events
@@ -95,13 +102,38 @@ function App() {
 
   return (
     <div className="App">
-      <Filters
-        filters={filters}
-        onChange={(newFilters) => {
-          setFilters(newFilters);
-          storeFiltersInLocalStorage(newFilters);
+      <AppBar position="fixed">
+        <Toolbar>
+          <>
+            <strong>NFT LiveFeed</strong>&nbsp;by TezTok
+          </>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton
+            color="primary"
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer 
+        anchor="right"
+        open
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+          },
         }}
-      />
+      >
+        <Filters
+          filters={filters}
+          onChange={(newFilters) => {
+            setFilters(newFilters);
+            storeFiltersInLocalStorage(newFilters);
+          }}
+        />
+      </Drawer>
       {feed}
     </div>
   );

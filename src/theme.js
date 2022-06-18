@@ -77,6 +77,29 @@ const theme = createTheme({
         },
       },
     },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+      },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+          borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          marginRight: '10px',
+        },
+      },
+    },
   },
 });
 
