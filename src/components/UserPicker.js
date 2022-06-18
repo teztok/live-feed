@@ -19,7 +19,7 @@ function useGetUsers(addresses) {
   });
 
   return {
-    isLoading: !!data,
+    isLoading: !data,
     users: data ? data.tzprofiles : null,
   };
 }

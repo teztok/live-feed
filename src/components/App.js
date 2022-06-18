@@ -25,11 +25,12 @@ function filterEvents(events, filters) {
     .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
-    .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true));
+    .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
+    .slice(0, filters.itemLimit)
 }
 
 function App() {
-  const [filters, setFilters] = useState(getFiltersFromLocalStorage() || DEFAULT_FILTERS);
+  const [filters, setFilters] = useState(getFiltersFromLocalStorage() ? { ...DEFAULT_FILTERS, ...getFiltersFromLocalStorage() } : DEFAULT_FILTERS);
   const [prevEvents, setPrevEvents] = useState([]);
   const deferredFilters = useDeferredValue(filters);
   const { data } = useSWR(
