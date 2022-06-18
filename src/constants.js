@@ -4,7 +4,8 @@ export const DEFAULT_FILTERS = {
   showSecondarySwaps: true, // TODO
   showSales: false,
   showOffers: false,
-  itemLimit: 100
+  itemLimit: 100,
+  followedAddresses: [],
 };
 
 export const MINT_EVENTS = [

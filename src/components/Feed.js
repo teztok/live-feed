@@ -13,8 +13,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import CircularProgress from '@mui/material/CircularProgress';
-import Skeleton from '@mui/material/Skeleton';
 import { ipfsToGatewayUri, formatTz, shortenTzAddress } from '../libs/utils';
 
 function FeedItem({ event }) {
@@ -139,16 +137,12 @@ function FeedItem({ event }) {
                   mr: 2,
                 }}
               />
-              <Chip
-                label="Primary"
-                color="primary"
-                variant="contained"
-              />
+              <Chip label="Primary" color="primary" variant="contained" />
             </Box>
           </Box>
         </TableCell>
 
-        <TableCell 
+        <TableCell
           align="right"
           sx={{
             borderTopRightRadius: 5,
@@ -170,9 +164,9 @@ function FeedItem({ event }) {
               }}
             >
               <Tooltip title="Best Price" arrow placement="top">
-                <CheckCircleIcon 
-                  fontSize="inherit" 
-                  color="primary" 
+                <CheckCircleIcon
+                  fontSize="inherit"
+                  color="primary"
                   sx={{
                     mr: 1,
                     transform: 'translate3d(0,1px,0)',
@@ -184,20 +178,14 @@ function FeedItem({ event }) {
                 {formatTz(event.price)}
               </Typography>
             </Box>
-            <Button 
-              variant="contained" 
-              size="small"
-            >
+            <Button variant="contained" size="small">
               Buy
             </Button>
           </Box>
         </TableCell>
-
       </TableRow>
 
-
-
-{/* 
+      {/* 
       <TableRow>
         <TableCell
           sx={{
@@ -334,9 +322,9 @@ function Feed({ events }) {
       >
         <Table>
           <TableBody>
-          {(events || []).map((event) => (
-            <FeedItem key={event.id} event={event} />
-          ))}
+            {(events || []).map((event) => (
+              <FeedItem key={event.id} event={event} />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

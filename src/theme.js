@@ -58,14 +58,14 @@ const theme = createTheme({
         root: {
           borderCollapse: 'separate',
           borderSpacing: '0px 15px',
-        }
+        },
       },
     },
     MuiTableRow: {
       styleOverrides: {
         root: {
           backgroundColor: '#1d2332',
-        }
+        },
       },
     },
     MuiTableCell: {
@@ -74,7 +74,7 @@ const theme = createTheme({
           overflow: 'hidden',
           padding: 0,
           borderBottom: 0,
-        }
+        },
       },
     },
   },
