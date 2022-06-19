@@ -1,10 +1,39 @@
+import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Filters from './Filters';
+import Watchlist from './Watchlist';
 import SyncButton from './SyncButton';
 
 const DRAWER_WIDTH = 400;
+const VIEW_FILTERS = 'filters';
+const VIEW_WATCHLIST = 'watchlist';
 
 function Sidebar({ open, filters, onClose, onFiltersUpdate }) {
+  const [view, setView] = useState(VIEW_FILTERS);
+  let content = null;
+
+  if (view === VIEW_FILTERS) {
+    content = (
+      <Filters
+        filters={filters}
+        onChange={onFiltersUpdate}
+        onWatchlistClick={() => {
+          setView(VIEW_WATCHLIST);
+        }}
+      />
+    );
+  } else {
+    content = (
+      <Watchlist
+        filters={filters}
+        onChange={onFiltersUpdate}
+        onBackClick={() => {
+          setView(VIEW_FILTERS);
+        }}
+      />
+    );
+  }
+
   return (
     <Drawer
       anchor="right"
@@ -19,7 +48,7 @@ function Sidebar({ open, filters, onClose, onFiltersUpdate }) {
       }}
     >
       <SyncButton />
-      <Filters filters={filters} onChange={onFiltersUpdate} />
+      {content}
     </Drawer>
   );
 }

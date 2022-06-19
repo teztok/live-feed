@@ -10,9 +10,9 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
 import Chip from '@mui/material/Chip';
-import UserPicker from './UserPicker';
+import Button from '@mui/material/Button';
 
-function Filters({ filters, onChange }) {
+function Filters({ filters, onChange, onWatchlistClick }) {
   return (
     <div className="Filters">
       <Box>
@@ -150,38 +150,13 @@ function Filters({ filters, onChange }) {
 
           <Divider />
 
-          <Box
-            sx={{
-              m: 4,
+          <Button
+            onClick={() => {
+              onWatchlistClick();
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                mb: 3,
-              }}
-            >
-              <Typography variant="body1" component="p">
-                <strong>Watchlist</strong>
-              </Typography>
-              <FormControlLabel
-                control={<Switch checked={filters.allowlistOnly} size="small" sx={{ mr: 0 }} />}
-                onChange={() => {
-                  onChange({ ...filters, allowlistOnly: !filters.allowlistOnly });
-                }}
-                sx={{
-                  ml: 'auto',
-                  mr: 0,
-                }}
-              />
-            </Box>
-            <UserPicker
-              addresses={filters.followedAddresses}
-              onChange={(addresses) => {
-                onChange({ ...filters, followedAddresses: addresses });
-              }}
-            />
-          </Box>
+            Edit Watchlist ({filters.followedAddresses.length})
+          </Button>
         </FormGroup>
       </Box>
     </div>
