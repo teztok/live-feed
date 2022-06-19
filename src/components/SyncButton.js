@@ -1,4 +1,5 @@
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
+import Button from '@mui/material/Button';
 import { shortenTzAddress } from '../libs/utils';
 
 export default function SyncButton() {
@@ -6,11 +7,11 @@ export default function SyncButton() {
 
   return (
     <div>
-      {!activeAccount && <button onClick={connect}>Sync</button>}
+      {!activeAccount && <Button onClick={connect}>Sync</Button>}
       {activeAccount && (
         <div>
           <span>{shortenTzAddress(activeAccount?.address)}</span>
-          <button onClick={disconnect}>Unsync</button>
+          <Button onClick={disconnect}>Unsync</Button>
         </div>
       )}
     </div>

@@ -3,6 +3,13 @@ import useSWR from 'swr';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import get from 'lodash/get';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import Sidebar from './Sidebar';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage } from '../libs/utils';
 import {
   DEFAULT_FILTERS,
@@ -15,17 +22,7 @@ import {
   EVENT_CATEGORY_OFFER,
 } from '../constants';
 import Feed from './Feed';
-import Filters from './Filters';
 import laggy from '../libs/swr-laggy-middleware';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
-import IconButton from '@mui/material/IconButton';
-
-const drawerWidth = 400;
 
 function isEventOfFollowedAddress(event, followedAddresses) {
   return followedAddresses.some((address) => {
@@ -51,6 +48,7 @@ function filterEvents(events, filters) {
 }
 
 function App() {
+  const [showSettings, setShowSettings] = useState(false);
   const [filters, setFilters] = useState(
     getFiltersFromLocalStorage() ? { ...DEFAULT_FILTERS, ...getFiltersFromLocalStorage() } : DEFAULT_FILTERS
   );
@@ -128,31 +126,26 @@ function App() {
           <Box sx={{ flexGrow: 1 }} />
           <IconButton
             color="primary"
+            onClick={() => {
+              setShowSettings(true);
+            }}
           >
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer 
-        anchor="right"
-        open
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-          },
-        }}
-      >
-        <Filters
-          filters={filters}
-          onChange={(newFilters) => {
-            setFilters(newFilters);
-            storeFiltersInLocalStorage(newFilters);
-          }}
-        />
-      </Drawer>
       {feed}
+      <Sidebar
+        open={showSettings}
+        filters={filters}
+        onClose={() => {
+          setShowSettings(false);
+        }}
+        onFiltersUpdate={(newFilters) => {
+          setFilters(newFilters);
+          storeFiltersInLocalStorage(newFilters);
+        }}
+      />
     </div>
   );
 }

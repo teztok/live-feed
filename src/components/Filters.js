@@ -17,9 +17,9 @@ function Filters({ filters, onChange }) {
     <div className="Filters">
       <Box>
         <FormGroup>
-          <Typography 
-            variant="body1" 
-            component="p" 
+          <Typography
+            variant="body1"
+            component="p"
             sx={{
               m: 4,
               mb: 3,
@@ -27,7 +27,7 @@ function Filters({ filters, onChange }) {
           >
             <strong>Amount of events</strong>
           </Typography>
-          <FormControl 
+          <FormControl
             size="small"
             sx={{
               m: 4,
@@ -60,15 +60,15 @@ function Filters({ filters, onChange }) {
 
           <Divider />
 
-          <Box 
-              sx={{
+          <Box
+            sx={{
               m: 4,
               ml: 5,
             }}
           >
-            <Typography 
-              variant="body1" 
-              component="p" 
+            <Typography
+              variant="body1"
+              component="p"
               sx={{
                 mb: 2,
               }}
@@ -80,7 +80,11 @@ function Filters({ filters, onChange }) {
               onChange={() => {
                 onChange({ ...filters, showMints: !filters.showMints });
               }}
-              label={<Typography variant="body2" color="textSecondary">Mints</Typography>}
+              label={
+                <Typography variant="body2" color="textSecondary">
+                  Mints
+                </Typography>
+              }
               sx={{
                 width: '100%',
               }}
@@ -90,7 +94,11 @@ function Filters({ filters, onChange }) {
               onChange={() => {
                 onChange({ ...filters, showSwaps: !filters.showSwaps });
               }}
-              label={<Typography variant="body2" color="textSecondary">Swaps</Typography>}
+              label={
+                <Typography variant="body2" color="textSecondary">
+                  Swaps
+                </Typography>
+              }
               sx={{
                 width: '100%',
               }}
@@ -100,7 +108,11 @@ function Filters({ filters, onChange }) {
               onChange={() => {
                 onChange({ ...filters, showSecondarySwaps: !filters.showSecondarySwaps });
               }}
-              label={<Typography variant="body2" color="textSecondary">Swaps <Chip size="small" label="Secondary" variant="outlined" sx={{ ml: 0.5 }}></Chip></Typography>}
+              label={
+                <Typography variant="body2" color="textSecondary">
+                  Swaps <Chip size="small" label="Secondary" variant="outlined" sx={{ ml: 0.5 }}></Chip>
+                </Typography>
+              }
               sx={{
                 width: '100%',
               }}
@@ -111,7 +123,11 @@ function Filters({ filters, onChange }) {
               onChange={() => {
                 onChange({ ...filters, showSales: !filters.showSales });
               }}
-              label={<Typography variant="body2" color="textSecondary">Sales</Typography>}
+              label={
+                <Typography variant="body2" color="textSecondary">
+                  Sales
+                </Typography>
+              }
               sx={{
                 width: '100%',
               }}
@@ -121,7 +137,11 @@ function Filters({ filters, onChange }) {
               onChange={() => {
                 onChange({ ...filters, showOffers: !filters.showOffers });
               }}
-              label={<Typography variant="body2" color="textSecondary">Offers</Typography>}
+              label={
+                <Typography variant="body2" color="textSecondary">
+                  Offers
+                </Typography>
+              }
               sx={{
                 width: '100%',
               }}
@@ -129,7 +149,7 @@ function Filters({ filters, onChange }) {
           </Box>
 
           <Divider />
-          
+
           <Box
             sx={{
               m: 4,
@@ -141,10 +161,7 @@ function Filters({ filters, onChange }) {
                 mb: 3,
               }}
             >
-              <Typography 
-                variant="body1" 
-                component="p" 
-              >
+              <Typography variant="body1" component="p">
                 <strong>Watchlist</strong>
               </Typography>
               <FormControlLabel

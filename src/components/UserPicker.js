@@ -52,14 +52,12 @@ function UserList({ addresses, onAddressRemove }) {
         sx={{
           mt: 4,
         }}
-      >
-        
-      </Box>
-    )
+      ></Box>
+    );
   }
 
   return (
-    <List 
+    <List
       dense
       sx={{
         mt: 4,
@@ -76,7 +74,10 @@ function UserList({ addresses, onAddressRemove }) {
           dense
         >
           <Tooltip title={address} enterDelay={500} arrow placement="left">
-            <ListItemText primary={get(users, [address, 'alias']) ? get(users, [address, 'alias']) : ('–')} secondary={shortenTzAddress(address)} />
+            <ListItemText
+              primary={get(users, [address, 'alias']) ? get(users, [address, 'alias']) : '–'}
+              secondary={shortenTzAddress(address)}
+            />
           </Tooltip>
         </ListItem>
       ))}

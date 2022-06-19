@@ -45,7 +45,7 @@ function FeedItem({ event }) {
               lineHeight: 0,
             }}
           >
-            {!(event.category === 'MINT') &&
+            {!(event.category === 'MINT') && (
               <>
                 {get(event, 'token.display_uri') && (
                   <img
@@ -60,7 +60,7 @@ function FeedItem({ event }) {
                   />
                 )}
               </>
-            }
+            )}
           </Box>
         </TableCell>
 
@@ -76,7 +76,7 @@ function FeedItem({ event }) {
                 pl: 3,
               }}
             >
-              {!(event.category === 'MINT') ?
+              {!(event.category === 'MINT') ? (
                 <Chip
                   label={event.category}
                   color="primary"
@@ -84,7 +84,7 @@ function FeedItem({ event }) {
                     mr: 2,
                   }}
                 />
-              :
+              ) : (
                 <Chip
                   label={event.category}
                   color="primary"
@@ -93,7 +93,7 @@ function FeedItem({ event }) {
                     mr: 2,
                   }}
                 />
-              }
+              )}
               2 minutes ago by{' '}
               {get(event, 'token.artist_address') ? (
                 <Typography variant="body2" component="strong" color="primary">
@@ -119,7 +119,7 @@ function FeedItem({ event }) {
                 pl: 3,
               }}
             >
-              {!(event.category === 'MINT') &&
+              {!(event.category === 'MINT') && (
                 <>
                   <Chip
                     label={get(event, 'token.platform')}
@@ -145,13 +145,9 @@ function FeedItem({ event }) {
                       mr: 2,
                     }}
                   />
-                  <Chip 
-                    label="Primary" 
-                    color="primary" 
-                    variant="contained" 
-                  />
+                  <Chip label="Primary" color="primary" variant="contained" />
                 </>
-              }
+              )}
             </Box>
           </Box>
         </TableCell>
@@ -172,7 +168,7 @@ function FeedItem({ event }) {
               pl: 3,
             }}
           >
-            {!(event.category === 'MINT') ?
+            {!(event.category === 'MINT') ? (
               <>
                 <Box
                   sx={{
@@ -197,11 +193,11 @@ function FeedItem({ event }) {
                   Buy
                 </Button>
               </>
-            :
+            ) : (
               <>
-                Fetching metadata 
-                <CircularProgress 
-                  color="primary" 
+                Fetching metadata
+                <CircularProgress
+                  color="primary"
                   size={14}
                   thickness={5}
                   sx={{
@@ -209,7 +205,7 @@ function FeedItem({ event }) {
                   }}
                 />
               </>
-            }
+            )}
           </Box>
         </TableCell>
       </TableRow>
