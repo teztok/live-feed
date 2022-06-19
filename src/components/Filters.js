@@ -12,6 +12,25 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 
+function ToggleFilter({ checked, disabled, onChange, children }) {
+  return (
+    <FormControlLabel
+      control={<Switch disabled={disabled} checked={checked} size="small" />}
+      onChange={() => {
+        onChange(!checked);
+      }}
+      label={
+        <Typography variant="body2" color="textSecondary">
+          {children}
+        </Typography>
+      }
+      sx={{
+        width: '100%',
+      }}
+    />
+  );
+}
+
 function Filters({ filters, onChange, onWatchlistClick }) {
   return (
     <div className="Filters">
@@ -75,77 +94,125 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             >
               <strong>Event filters</strong>
             </Typography>
-            <FormControlLabel
-              control={<Switch checked={filters.showMints} size="small" />}
-              onChange={() => {
-                onChange({ ...filters, showMints: !filters.showMints });
-              }}
-              label={
-                <Typography variant="body2" color="textSecondary">
-                  Mints
-                </Typography>
-              }
-              sx={{
-                width: '100%',
-              }}
-            />
-            <FormControlLabel
-              control={<Switch checked={filters.showSwaps} size="small" />}
-              onChange={() => {
-                onChange({ ...filters, showSwaps: !filters.showSwaps });
-              }}
-              label={
-                <Typography variant="body2" color="textSecondary">
-                  Swaps
-                </Typography>
-              }
-              sx={{
-                width: '100%',
-              }}
-            />
-            <FormControlLabel
-              control={<Switch disabled={!filters.showSwaps} checked={filters.showSecondarySwaps} size="small" />}
-              onChange={() => {
-                onChange({ ...filters, showSecondarySwaps: !filters.showSecondarySwaps });
-              }}
-              label={
-                <Typography variant="body2" color="textSecondary">
-                  Swaps <Chip size="small" label="Secondary" variant="outlined" sx={{ ml: 0.5 }}></Chip>
-                </Typography>
-              }
-              sx={{
-                width: '100%',
-              }}
-            />
 
-            <FormControlLabel
-              control={<Switch checked={filters.showSales} size="small" />}
-              onChange={() => {
-                onChange({ ...filters, showSales: !filters.showSales });
+            <ToggleFilter
+              checked={filters.showMints}
+              onChange={(checked) => {
+                onChange({ ...filters, showMints: checked });
               }}
-              label={
-                <Typography variant="body2" color="textSecondary">
-                  Sales
-                </Typography>
-              }
+            >
+              Mints
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showSwaps}
+              onChange={(checked) => {
+                onChange({ ...filters, showSwaps: checked });
+              }}
+            >
+              Swaps
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showSecondarySwaps}
+              disabled={!filters.showSwaps}
+              onChange={(checked) => {
+                onChange({ ...filters, showSecondarySwaps: checked });
+              }}
+            >
+              Swaps <Chip size="small" label="Secondary Market" variant="outlined" sx={{ ml: 0.5 }}></Chip>
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showSales}
+              onChange={(checked) => {
+                onChange({ ...filters, showSales: checked });
+              }}
+            >
+              Sales
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showOffers}
+              onChange={(checked) => {
+                onChange({ ...filters, showOffers: checked });
+              }}
+            >
+              Offers
+            </ToggleFilter>
+          </Box>
+
+          <Divider />
+
+          <Box
+            sx={{
+              m: 4,
+              ml: 5,
+            }}
+          >
+            <Typography
+              variant="body1"
+              component="p"
               sx={{
-                width: '100%',
+                mb: 2,
               }}
-            />
-            <FormControlLabel
-              control={<Switch checked={filters.showOffers} size="small" />}
-              onChange={() => {
-                onChange({ ...filters, showOffers: !filters.showOffers });
+            >
+              <strong>Platform filters</strong>
+            </Typography>
+
+            <ToggleFilter
+              checked={filters.showHenTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showHenTokens: checked });
               }}
-              label={
-                <Typography variant="body2" color="textSecondary">
-                  Offers
-                </Typography>
-              }
-              sx={{
-                width: '100%',
+            >
+              Teia / HEN
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showVersumTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showVersumTokens: checked });
               }}
-            />
+            >
+              Versum
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showObjktTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showObjktTokens: checked });
+              }}
+            >
+              OBJKT
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showFxhashTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showFxhashTokens: checked });
+              }}
+            >
+              FXHASH
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.show8bidouTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, show8bidouTokens: checked });
+              }}
+            >
+              8BIDOU
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.showOtherTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showOtherTokens: checked });
+              }}
+            >
+              Others
+            </ToggleFilter>
           </Box>
 
           <Divider />

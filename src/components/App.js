@@ -43,6 +43,12 @@ function filterEvents(events, filters) {
     .filter((event) => (event.category === EVENT_CATEGORY_SWAP && !filters.showSecondarySwaps ? !event.isSecondarySwap : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
+    .filter((event) => (!filters.showObjktTokens ? get(event, 'token.platform') !== 'OBJKT' : true))
+    .filter((event) => (!filters.showHenTokens ? get(event, 'token.platform') !== 'HEN' : true))
+    .filter((event) => (!filters.showVersumTokens ? get(event, 'token.platform') !== 'VERSUM' : true))
+    .filter((event) => (!filters.showFxhashTokens ? get(event, 'token.platform') !== 'FXHASH' : true))
+    .filter((event) => (!filters.show8bidouTokens ? get(event, 'token.platform') !== '8BIDOU' : true))
+    .filter((event) => (!filters.showOtherTokens ? get(event, 'token.platform') !== null : true))
     .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);
 }
