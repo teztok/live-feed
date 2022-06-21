@@ -8,7 +8,6 @@ export const DEFAULT_FILTERS = {
   showHenTokens: true,
   showVersumTokens: true,
   showFxhashTokens: true,
-  showTokens: true,
   show8bidouTokens: true,
   showOtherTokens: true,
   allowlistOnly: false,
@@ -24,6 +23,7 @@ export const MINT_EVENTS = [
   'VERSUM_MINT',
   'FX_MINT_ISSUER_V3',
   'OBJKT_MINT_ARTIST',
+  'FX_OFFER_V3',
 ];
 
 export const SWAP_EVENTS = ['8BID_8X8_COLOR_SWAP', '8BID_24X24_COLOR_SWAP', 'HEN_SWAP_V2', 'TEIA_SWAP', 'VERSUM_SWAP', 'FX_LISTING'];

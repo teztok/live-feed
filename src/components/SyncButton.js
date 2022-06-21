@@ -9,11 +9,19 @@ export default function SyncButton() {
 
   return (
     <>
-      {!activeAccount && <Button onClick={connect} variant="outlined" size="small">Sync</Button>}
+      {!activeAccount && (
+        <Button onClick={connect} variant="outlined" size="small">
+          Sync
+        </Button>
+      )}
       {activeAccount && (
         <Box>
-          <Typography variant="body2" component="strong" sx={{ mr: 2 }}>{shortenTzAddress(activeAccount?.address)}</Typography>
-          <Button onClick={disconnect} variant="contained" size="small">Unsync</Button>
+          <Typography variant="body2" component="strong" sx={{ mr: 2 }}>
+            {shortenTzAddress(activeAccount?.address)}
+          </Typography>
+          <Button onClick={disconnect} variant="contained" size="small">
+            Unsync
+          </Button>
         </Box>
       )}
     </>

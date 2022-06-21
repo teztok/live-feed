@@ -218,9 +218,9 @@ function Filters({ filters, onChange, onWatchlistClick }) {
           <Divider />
 
           <Box
-          sx={{
-            m: 4,
-          }}
+            sx={{
+              m: 4,
+            }}
           >
             <Button
               variant="contained"

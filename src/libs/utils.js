@@ -1,7 +1,36 @@
+import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 
-export function ipfsToGatewayUri(ipfsUri) {
+function getIpfsUri(event) {
+  const platform = get(event, 'token.platform');
+
+  if (platform === 'HEN') {
+    return get(event, 'token.display_uri');
+  }
+
+  if (
+    platform === 'FXHASH' &&
+    get(event, 'token.thumbnail_uri') === 'ipfs://QmbvEAn7FLMeYBDroYwBP8qWc3d3VVWbk19tTB83LCMB5S' &&
+    get(event, 'token.fx_collection_thumbnail_uri')
+  ) {
+    return get(event, 'token.fx_collection_thumbnail_uri');
+  }
+
+  return get(event, 'token.thumbnail_uri');
+}
+
+export function getPreviewImage(event) {
+  const ipfsUri = getIpfsUri(event);
+
+  if (!ipfsUri) {
+    return null; // TODO: placeholder image
+  }
   const ipfsHash = ipfsUri.replace('ipfs://', '');
+
+  if (get(event, 'token.platform') === 'FXHASH') {
+    return `https://gateway.fxhash.xyz/ipfs/${ipfsHash}`;
+  }
+
   return `https://ipfs.io/ipfs/${ipfsHash}`;
 }
 

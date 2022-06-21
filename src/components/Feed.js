@@ -15,7 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Toolbar from '@mui/material/Toolbar';
-import { ipfsToGatewayUri, formatTz, shortenTzAddress } from '../libs/utils';
+import { formatTz, shortenTzAddress, getPreviewImage } from '../libs/utils';
 
 function Image({ event }) {
   return (
@@ -45,9 +45,9 @@ function Image({ event }) {
       >
         {!(event.category === 'MINT') && (
           <>
-            {get(event, 'token.display_uri') && (
+            {get(event, 'token.thumbnail_uri') && (
               <img
-                src={ipfsToGatewayUri(get(event, 'token.display_uri'))}
+                src={getPreviewImage(event)}
                 alt={get(event, 'token.name')}
                 loading="lazy"
                 style={{
@@ -79,7 +79,7 @@ function Meta({ event }) {
             pl: 3,
           }}
         >
-          {(event.category === 'MINT') ? (
+          {event.category === 'MINT' ? (
             <Chip
               label={event.category}
               color="primary"
@@ -88,23 +88,23 @@ function Meta({ event }) {
                 mr: 2,
               }}
             />
-          ) : (event.category === 'SWAP') ? (
-              <Chip
-                label={event.category}
-                color="primary"
-                sx={{
-                  mr: 2,
-                }}
-              />
-          ) : (event.category === 'OFFER') ? (
-              <Chip
-                label={event.category}
-                color="error"
-                variant="outlined"
-                sx={{
-                  mr: 2,
-                }}
-              />
+          ) : event.category === 'SWAP' ? (
+            <Chip
+              label={event.category}
+              color="primary"
+              sx={{
+                mr: 2,
+              }}
+            />
+          ) : event.category === 'OFFER' ? (
+            <Chip
+              label={event.category}
+              color="error"
+              variant="outlined"
+              sx={{
+                mr: 2,
+              }}
+            />
           ) : (
             <Chip
               label={event.category}
@@ -117,14 +117,12 @@ function Meta({ event }) {
           )}
 
           <Box
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            <Typography variant="body2">
-              2 minutes ago by&nbsp;
-            </Typography>
+            <Typography variant="body2">2 minutes ago by&nbsp;</Typography>
 
             {get(event, 'token.artist_address') ? (
               <Link href="https://objkt.com">
@@ -145,12 +143,8 @@ function Meta({ event }) {
               <TwitterIcon fontSize="inherit" />
             </IconButton>
 
-            {(event.category === 'SALE') && 
-              <Tooltip 
-                title="tz1ci…mjhDE, tz2QS…Xb6j1, tz1Nn…CkHQ1" 
-                arrow 
-                placement="top"
-              >
+            {event.category === 'SALE' && (
+              <Tooltip title="tz1ci…mjhDE, tz2QS…Xb6j1, tz1Nn…CkHQ1" arrow placement="top">
                 <Chip
                   label="+ 3"
                   variant="outlined"
@@ -161,7 +155,7 @@ function Meta({ event }) {
                   }}
                 />
               </Tooltip>
-            }
+            )}
           </Box>
         </Box>
         <Box
@@ -199,18 +193,10 @@ function Meta({ event }) {
             </>
           )}
 
-          {(event.category === 'SWAP') && (
+          {event.category === 'SWAP' && (
             <>
-              <Chip 
-                label="Primary" 
-                color="primary" 
-                variant="contained" 
-              />
-              <Chip 
-                label="Secondary" 
-                color="warning" 
-                variant="contained" 
-              />
+              <Chip label="Primary" color="primary" variant="contained" />
+              <Chip label="Secondary" color="warning" variant="contained" />
             </>
           )}
         </Box>
@@ -237,7 +223,7 @@ function Action({ event }) {
           pl: 3,
         }}
       >
-        {(event.category === 'MINT') &&
+        {event.category === 'MINT' && (
           <>
             Fetching metadata
             <CircularProgress
@@ -250,9 +236,9 @@ function Action({ event }) {
               }}
             />
           </>
-        }
+        )}
 
-        {(event.category === 'SWAP') &&
+        {event.category === 'SWAP' && (
           <>
             <Box
               sx={{
@@ -277,9 +263,9 @@ function Action({ event }) {
               Buy
             </Button>
           </>
-        }
+        )}
 
-        {(event.category === 'OFFER') &&
+        {event.category === 'OFFER' && (
           <>
             <Box
               sx={{
@@ -291,7 +277,7 @@ function Action({ event }) {
               </Typography>
             </Box>
           </>
-        }
+        )}
 
         <Button color="secondary" variant="outlined" size="small" sx={{ ml: 2 }}>
           View
