@@ -21,6 +21,7 @@ import {
   EVENT_CATEGORY_SALE,
   EVENT_CATEGORY_OFFER,
 } from '../constants';
+import SyncButton from './SyncButton';
 import Feed from './Feed';
 import laggy from '../libs/swr-laggy-middleware';
 
@@ -130,10 +131,14 @@ function App() {
             <strong>NFT LiveFeed</strong>&nbsp;by TezTok
           </>
           <Box sx={{ flexGrow: 1 }} />
+          <SyncButton />
           <IconButton
             color="primary"
             onClick={() => {
               setShowSettings(true);
+            }}
+            sx={{
+              ml: 2,
             }}
           >
             <MenuIcon />

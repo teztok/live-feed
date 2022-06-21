@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Filters from './Filters';
 import Watchlist from './Watchlist';
-import SyncButton from './SyncButton';
 
 const DRAWER_WIDTH = 400;
 const VIEW_FILTERS = 'filters';
@@ -47,7 +46,6 @@ function Sidebar({ open, filters, onClose, onFiltersUpdate }) {
         },
       }}
     >
-      <SyncButton />
       {content}
     </Drawer>
   );

@@ -4,21 +4,28 @@ import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Toolbar from '@mui/material/Toolbar';
+import Divider from '@mui/material/Divider';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserPicker from './UserPicker';
 
 function Filters({ filters, onChange, onBackClick }) {
   return (
     <div className="Filters">
+      <Toolbar>
+        <Button
+          onClick={() => {
+            onBackClick();
+          }}
+          size="small"
+          startIcon={<ArrowBackIcon />}
+        >
+          Back
+        </Button>
+      </Toolbar>
+      <Divider />
       <Box>
         <FormGroup>
-          <Button
-            onClick={() => {
-              onBackClick();
-            }}
-          >
-            Back
-          </Button>
-
           <Box
             sx={{
               m: 4,

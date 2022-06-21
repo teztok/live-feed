@@ -25,16 +25,16 @@ const theme = createTheme({
       paper: '#1d2332',
     },
     info: {
-      main: '#FFFFFF',
+      main: '#2096f3',
     },
     success: {
       main: '#FFFFFF',
     },
     warning: {
-      main: '#FFCC00',
+      main: '#ffb11f',
     },
     error: {
-      main: '#FFFFFF',
+      main: '#f06191',
     },
   },
   components: {

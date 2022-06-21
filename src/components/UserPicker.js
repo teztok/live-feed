@@ -17,7 +17,6 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Tooltip from '@mui/material/Tooltip';
 import FormHelperText from '@mui/material/FormHelperText';
 import { shortenTzAddress } from '../libs/utils';
-
 import { TEZTOK_API } from '../constants';
 
 const GetUsersQuery = gql`

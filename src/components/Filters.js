@@ -82,7 +82,7 @@ function Filters({ filters, onChange, onWatchlistClick }) {
           <Box
             sx={{
               m: 4,
-              ml: 5,
+              ml: 4,
             }}
           >
             <Typography
@@ -147,7 +147,7 @@ function Filters({ filters, onChange, onWatchlistClick }) {
           <Box
             sx={{
               m: 4,
-              ml: 5,
+              ml: 4,
             }}
           >
             <Typography
@@ -217,13 +217,23 @@ function Filters({ filters, onChange, onWatchlistClick }) {
 
           <Divider />
 
-          <Button
-            onClick={() => {
-              onWatchlistClick();
-            }}
+          <Box
+          sx={{
+            m: 4,
+          }}
           >
-            Edit Watchlist ({filters.followedAddresses.length})
-          </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onWatchlistClick();
+              }}
+              sx={{
+                width: '100%',
+              }}
+            >
+              Edit Watchlist ({filters.followedAddresses.length})
+            </Button>
+          </Box>
         </FormGroup>
       </Box>
     </div>
