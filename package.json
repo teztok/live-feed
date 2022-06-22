@@ -15,6 +15,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@tezos-contrib/react-wallet-provider": "^1.0.0-alpha.12",
+    "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",
     "javascript-time-ago": "^2.5.4",
     "lodash": "^4.17.21",
