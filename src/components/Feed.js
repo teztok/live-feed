@@ -114,7 +114,7 @@ function Meta({ event }) {
             }}
           >
             <Typography variant="body2">
-              <ReactTimeAgo date={new Date(event.timestamp)} /> by &nbsp;
+              <ReactTimeAgo date={new Date(event.timestamp)} /> &nbsp;&nbsp;
             </Typography>
 
             {artistInfo.address ? (
@@ -129,7 +129,7 @@ function Meta({ event }) {
               <IconButton
                 color="primary"
                 size="small"
-                href={`https://objkt.com/profile/${artistInfo.twitter}`}
+                href={`https://twitter.com/${artistInfo.twitter}`}
                 sx={{
                   ml: 0.15,
                 }}
@@ -208,7 +208,7 @@ function Action({ event }) {
             size={14}
             thickness={5}
             sx={{
-              mr: 1,
+              mr: 2,
               ml: 2,
             }}
           />
@@ -279,7 +279,7 @@ function EventItem({ event }) {
   const rowStyles = {};
 
   if (event.isNew) {
-    rowStyles.backgroundColor = '#152e15';
+    rowStyles.backgroundColor = '#052C1F';
   }
 
   return (
