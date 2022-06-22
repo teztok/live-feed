@@ -10,7 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Sidebar from './Sidebar';
-import { getFiltersFromLocalStorage, storeFiltersInLocalStorage } from '../libs/utils';
+import { getFiltersFromLocalStorage, storeFiltersInLocalStorage, getPlatform } from '../libs/utils';
 import {
   DEFAULT_FILTERS,
   MINT_EVENTS,
@@ -44,12 +44,12 @@ function filterEvents(events, filters) {
     .filter((event) => (event.category === EVENT_CATEGORY_SWAP && !filters.showSecondarySwaps ? !event.isSecondarySwap : true))
     .filter((event) => (!filters.showSales ? event.category !== EVENT_CATEGORY_SALE : true))
     .filter((event) => (!filters.showOffers ? event.category !== EVENT_CATEGORY_OFFER : true))
-    .filter((event) => (!filters.showObjktTokens ? get(event, 'token.platform') !== 'OBJKT' : true))
-    .filter((event) => (!filters.showHenTokens ? get(event, 'token.platform') !== 'HEN' : true))
-    .filter((event) => (!filters.showVersumTokens ? get(event, 'token.platform') !== 'VERSUM' : true))
-    .filter((event) => (!filters.showFxhashTokens ? get(event, 'token.platform') !== 'FXHASH' : true))
-    .filter((event) => (!filters.show8bidouTokens ? get(event, 'token.platform') !== '8BIDOU' : true))
-    .filter((event) => (!filters.showOtherTokens ? get(event, 'token.platform') !== null : true))
+    .filter((event) => (!filters.showObjktTokens ? getPlatform(event) !== 'OBJKT' : true))
+    .filter((event) => (!filters.showHenTokens ? getPlatform(event) !== 'HEN' : true))
+    .filter((event) => (!filters.showVersumTokens ? getPlatform(event) !== 'VERSUM' : true))
+    .filter((event) => (!filters.showFxhashTokens ? getPlatform(event) !== 'FXHASH' : true))
+    .filter((event) => (!filters.show8bidouTokens ? getPlatform(event) !== '8BIDOU' : true))
+    .filter((event) => (!filters.showOtherTokens ? getPlatform(event) !== null : true))
     .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);
 }
