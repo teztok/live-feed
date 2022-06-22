@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
 import { WalletProvider } from '@tezos-contrib/react-wallet-provider';
 import CssBaseline from '@mui/material/CssBaseline';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 import theme from './theme';
 import './index.css';
 import App from './components/App';
+
+TimeAgo.addDefaultLocale(en);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

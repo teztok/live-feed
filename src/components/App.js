@@ -69,29 +69,31 @@ function App() {
 
       const newEventsById = keyBy(newEvents, 'id');
       const prevEventsById = keyBy(prevEvents, 'id');
-      const events = sortBy(Object.values({ ...prevEventsById, ...newEventsById }), 'opid')
-        .reverse()
-        .map((event) => {
-          let category;
-          let isSecondarySwap;
+      const latestEvents = sortBy(Object.values({ ...prevEventsById, ...newEventsById }), 'opid').reverse();
+      const latestLevel = latestEvents[0].level;
 
-          if (event.implements === 'SALE') {
-            category = EVENT_CATEGORY_SALE;
-          } else if (MINT_EVENTS.includes(event.type)) {
-            category = EVENT_CATEGORY_MINT;
-          } else if (SWAP_EVENTS.includes(event.type)) {
-            isSecondarySwap = get(event, 'token.artist_address') !== event.seller_address;
-            category = EVENT_CATEGORY_SWAP;
-          } else if (OFFER_EVENTS.includes(event.type)) {
-            category = EVENT_CATEGORY_OFFER;
-          }
+      const events = latestEvents.map((event) => {
+        let category;
+        let isSecondarySwap;
 
-          return {
-            ...event,
-            category,
-            isSecondarySwap,
-          };
-        });
+        if (event.implements === 'SALE') {
+          category = EVENT_CATEGORY_SALE;
+        } else if (MINT_EVENTS.includes(event.type)) {
+          category = EVENT_CATEGORY_MINT;
+        } else if (SWAP_EVENTS.includes(event.type)) {
+          isSecondarySwap = get(event, 'token.artist_address') !== event.seller_address;
+          category = EVENT_CATEGORY_SWAP;
+        } else if (OFFER_EVENTS.includes(event.type)) {
+          category = EVENT_CATEGORY_OFFER;
+        }
+
+        return {
+          ...event,
+          category,
+          isSecondarySwap,
+          isNew: event.level === latestLevel,
+        };
+      });
 
       setPrevEvents(events);
 

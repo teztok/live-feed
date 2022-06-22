@@ -15,9 +15,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Toolbar from '@mui/material/Toolbar';
-import { formatTz, shortenTzAddress, getPreviewImage } from '../libs/utils';
+import ReactTimeAgo from 'react-time-ago';
+import {
+  formatTz,
+  getPreviewImage,
+  getArtistInfo,
+  getPlatform,
+  isTokenUpToDate,
+  getSwapPrice,
+  isBestPrice,
+  getTokenLink,
+} from '../libs/utils';
+import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER } from '../constants';
 
-function Image({ event }) {
+const EVENT_CATEGORY_TO_CHIP_PROPS = {
+  [EVENT_CATEGORY_MINT]: { color: 'primary', variant: 'outlined' },
+  [EVENT_CATEGORY_SWAP]: { color: 'primary' },
+  [EVENT_CATEGORY_OFFER]: { color: 'error', variant: 'outlined' },
+  [EVENT_CATEGORY_SALE]: { color: 'info', variant: 'outlined' },
+};
+
+function PreviewImage({ src, alt }) {
   return (
     <TableCell
       sx={{
@@ -43,28 +61,28 @@ function Image({ event }) {
           lineHeight: 0,
         }}
       >
-        {!(event.category === 'MINT') && (
-          <>
-            {get(event, 'token.thumbnail_uri') && (
-              <img
-                src={getPreviewImage(event)}
-                alt={get(event, 'token.name')}
-                loading="lazy"
-                style={{
-                  width: '70px',
-                  height: '70px',
-                  objectFit: 'cover',
-                }}
-              />
-            )}
-          </>
-        )}
+        {src ? (
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            style={{
+              width: '70px',
+              height: '70px',
+              objectFit: 'cover',
+            }}
+          />
+        ) : null}
       </Box>
     </TableCell>
   );
 }
 
 function Meta({ event }) {
+  const artistInfo = getArtistInfo(event);
+  const platform = getPlatform(event);
+  const editions = get(event, 'token.fx_collection_editions') || get(event, 'token.editions');
+
   return (
     <TableCell>
       <Box
@@ -79,42 +97,15 @@ function Meta({ event }) {
             pl: 3,
           }}
         >
-          {event.category === 'MINT' ? (
+          <Tooltip title={event.type} arrow placement="top">
             <Chip
               label={event.category}
-              color="primary"
-              variant="outlined"
+              {...EVENT_CATEGORY_TO_CHIP_PROPS[event.category]}
               sx={{
                 mr: 2,
               }}
             />
-          ) : event.category === 'SWAP' ? (
-            <Chip
-              label={event.category}
-              color="primary"
-              sx={{
-                mr: 2,
-              }}
-            />
-          ) : event.category === 'OFFER' ? (
-            <Chip
-              label={event.category}
-              color="error"
-              variant="outlined"
-              sx={{
-                mr: 2,
-              }}
-            />
-          ) : (
-            <Chip
-              label={event.category}
-              color="info"
-              variant="outlined"
-              sx={{
-                mr: 2,
-              }}
-            />
-          )}
+          </Tooltip>
 
           <Box
             sx={{
@@ -122,40 +113,30 @@ function Meta({ event }) {
               alignItems: 'center',
             }}
           >
-            <Typography variant="body2">2 minutes ago by&nbsp;</Typography>
+            <Typography variant="body2">
+              <ReactTimeAgo date={new Date(event.timestamp)} /> by &nbsp;
+            </Typography>
 
-            {get(event, 'token.artist_address') ? (
-              <Link href="https://objkt.com">
+            {artistInfo.address ? (
+              <Link href={`https://objkt.com/profile/${artistInfo.address}`}>
                 <Typography variant="body2" component="strong" color="primary">
-                  {get(event, 'token.artist_profile.alias') || shortenTzAddress(get(event, 'token.artist_address'))}
+                  {artistInfo.name}
                 </Typography>
               </Link>
             ) : null}
 
-            <IconButton
-              color="primary"
-              size="small"
-              href="https://twitter.com"
-              sx={{
-                ml: 0.15,
-              }}
-            >
-              <TwitterIcon fontSize="inherit" />
-            </IconButton>
-
-            {event.category === 'SALE' && (
-              <Tooltip title="tz1ci…mjhDE, tz2QS…Xb6j1, tz1Nn…CkHQ1" arrow placement="top">
-                <Chip
-                  label="+ 3"
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                  sx={{
-                    ml: 0.5,
-                  }}
-                />
-              </Tooltip>
-            )}
+            {artistInfo.twitter ? (
+              <IconButton
+                color="primary"
+                size="small"
+                href={`https://objkt.com/profile/${artistInfo.twitter}`}
+                sx={{
+                  ml: 0.15,
+                }}
+              >
+                <TwitterIcon fontSize="inherit" />
+              </IconButton>
+            ) : null}
           </Box>
         </Box>
         <Box
@@ -164,39 +145,35 @@ function Meta({ event }) {
             pl: 3,
           }}
         >
-          {!(event.category === 'MINT') && (
-            <>
-              <Chip
-                label={get(event, 'token.platform')}
-                color="secondary"
-                variant="outlined"
-                sx={{
-                  mr: 1,
-                }}
-              />
-              <Chip
-                label={`${get(event, 'token.editions')}  Editions`}
-                color="secondary"
-                variant="outlined"
-                sx={{
-                  mr: 1,
-                }}
-              />
-              <Chip
-                label="Whitelist"
-                color="secondary"
-                variant="outlined"
-                sx={{
-                  mr: 1,
-                }}
-              />
-            </>
-          )}
+          {platform ? (
+            <Chip
+              label={platform}
+              color="secondary"
+              variant="outlined"
+              sx={{
+                mr: 1,
+              }}
+            />
+          ) : null}
+
+          {editions ? (
+            <Chip
+              label={`${editions} Edition${editions > 1 ? 's' : ''}`}
+              color="secondary"
+              variant="outlined"
+              sx={{
+                mr: 1,
+              }}
+            />
+          ) : null}
 
           {event.category === 'SWAP' && (
             <>
-              <Chip label="Primary" color="primary" variant="contained" />
-              <Chip label="Secondary" color="warning" variant="contained" />
+              {event.isSecondarySwap ? (
+                <Chip label="Secondary" color="warning" variant="contained" />
+              ) : (
+                <Chip label="Primary" color="primary" variant="contained" />
+              )}
             </>
           )}
         </Box>
@@ -206,6 +183,8 @@ function Meta({ event }) {
 }
 
 function Action({ event }) {
+  const tokenLink = getTokenLink(event);
+
   return (
     <TableCell
       align="right"
@@ -223,19 +202,16 @@ function Action({ event }) {
           pl: 3,
         }}
       >
-        {event.category === 'MINT' && (
-          <>
-            Fetching metadata
-            <CircularProgress
-              color="primary"
-              size={14}
-              thickness={5}
-              sx={{
-                mr: 1,
-                ml: 2,
-              }}
-            />
-          </>
+        {!isTokenUpToDate(event) && (
+          <CircularProgress
+            color="primary"
+            size={14}
+            thickness={5}
+            sx={{
+              mr: 1,
+              ml: 2,
+            }}
+          />
         )}
 
         {event.category === 'SWAP' && (
@@ -245,27 +221,30 @@ function Action({ event }) {
                 mr: 4,
               }}
             >
-              <Tooltip title="Best Price" arrow placement="top">
-                <PaidIcon
-                  color="primary"
-                  sx={{
-                    mr: 1,
-                    transform: 'translate3d(0,6px,0)',
-                  }}
-                />
-              </Tooltip>
-              20 &nbsp;&times;&nbsp;&nbsp;
+              {isBestPrice(event) ? (
+                <Tooltip title="Best Price" arrow placement="top">
+                  <PaidIcon
+                    color="primary"
+                    sx={{
+                      mr: 1,
+                      transform: 'translate3d(0,6px,0)',
+                    }}
+                  />
+                </Tooltip>
+              ) : null}
+              {event.amount || 1} &nbsp;&times;&nbsp;&nbsp;
               <Typography variant="body2" component="strong" color="primary">
-                {formatTz(event.price)}
+                {formatTz(getSwapPrice(event))}
               </Typography>
             </Box>
-            <Button variant="contained" size="small">
+
+            <Button color="secondary" variant="outlined" size="small">
               Buy
             </Button>
           </>
         )}
 
-        {event.category === 'OFFER' && (
+        {(event.category === 'OFFER' || event.category === 'SALE') && (
           <>
             <Box
               sx={{
@@ -279,23 +258,29 @@ function Action({ event }) {
           </>
         )}
 
-        <Button color="secondary" variant="outlined" size="small" sx={{ ml: 2 }}>
-          View
-        </Button>
+        {tokenLink ? (
+          <Button href={tokenLink} variant="contained" size="small" sx={{ ml: 2 }}>
+            View
+          </Button>
+        ) : null}
       </Box>
     </TableCell>
   );
 }
 
-function FeedItem({ event }) {
+function EventItem({ event }) {
+  const rowStyles = {};
+
+  if (event.isNew) {
+    rowStyles.backgroundColor = '#152e15';
+  }
+
   return (
-    <>
-      <TableRow>
-        <Image event={event} />
-        <Meta event={event} />
-        <Action event={event} />
-      </TableRow>
-    </>
+    <TableRow style={rowStyles}>
+      <PreviewImage src={getPreviewImage(event)} alt={get(event, 'token.name')} />
+      <Meta event={event} />
+      <Action event={event} />
+    </TableRow>
   );
 }
 
@@ -312,7 +297,7 @@ function Feed({ events }) {
         <Table>
           <TableBody>
             {(events || []).map((event) => (
-              <FeedItem key={event.id} event={event} />
+              <EventItem key={event.id} event={event} />
             ))}
           </TableBody>
         </Table>

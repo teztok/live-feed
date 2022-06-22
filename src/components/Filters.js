@@ -62,11 +62,10 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                 onChange({ ...filters, itemLimit: ev.target.value });
               }}
             >
+              <MenuItem value={25}>25</MenuItem>
               <MenuItem value={50}>50</MenuItem>
               <MenuItem value={100}>100</MenuItem>
               <MenuItem value={200}>200</MenuItem>
-              <MenuItem value={500}>500</MenuItem>
-              <MenuItem value={1000}>1000</MenuItem>
             </Select>
             <FormHelperText
               sx={{
