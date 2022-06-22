@@ -266,7 +266,7 @@ function Action({ event }) {
         )}
 
         {tokenLink ? (
-          <Button href={tokenLink} variant="contained" size="small" sx={{ ml: 2 }}>
+          <Button href={tokenLink} target="_blank" rel="noopener noreferrer" variant="contained" size="small" sx={{ ml: 2 }}>
             View
           </Button>
         ) : null}
