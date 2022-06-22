@@ -238,7 +238,14 @@ function Action({ event }) {
               </Typography>
             </Box>
 
-            <Button color="secondary" variant="outlined" size="small">
+            <Button
+              color="secondary"
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                alert('not implemented yet');
+              }}
+            >
               Buy
             </Button>
           </>
