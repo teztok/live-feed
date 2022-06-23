@@ -1,4 +1,5 @@
 export const DEFAULT_FILTERS = {
+  imageSize: 'small',
   showMints: true,
   showSwaps: true,
   showSecondarySwaps: false,

@@ -9,6 +9,10 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Sidebar from './Sidebar';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage, getPlatform } from '../libs/utils';
 import {
@@ -107,7 +111,10 @@ function App() {
     }
   );
 
-  const feed = useMemo(() => <Feed events={filterEvents(data || [], deferredFilters)} />, [deferredFilters, data]);
+  const feed = useMemo(
+    () => <Feed events={filterEvents(data || [], deferredFilters)} imageSize={deferredFilters.imageSize} />,
+    [deferredFilters, data]
+  );
 
   if (!data) {
     return (
@@ -132,7 +139,24 @@ function App() {
           <>
             <strong>NFT LiveFeed</strong>&nbsp;by TezTok
           </>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
+            <ToggleButtonGroup
+              value={filters.imageSize}
+              exclusive
+              onChange={(ev, newImageSize) => {
+                const newFilters = { ...filters, imageSize: newImageSize };
+                setFilters(newFilters);
+                storeFiltersInLocalStorage(newFilters);
+              }}
+            >
+              <ToggleButton value="small" size="small">
+                <FullscreenExitIcon />
+              </ToggleButton>
+              <ToggleButton value="large" size="small">
+                <FullscreenIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
           <SyncButton />
           <IconButton
             color="primary"

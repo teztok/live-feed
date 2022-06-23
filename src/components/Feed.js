@@ -36,12 +36,15 @@ const EVENT_CATEGORY_TO_CHIP_PROPS = {
   [EVENT_CATEGORY_SALE]: { color: 'info', variant: 'outlined' },
 };
 
-function PreviewImage({ src, alt }) {
+function PreviewImage({ src, alt, imageSize }) {
+  const size = imageSize === 'large' ? '140px' : '70px';
+  const objectFit = imageSize === 'large' ? 'contain' : 'cover';
+
   return (
     <TableCell
       sx={{
         p: 0,
-        width: '70px',
+        width: size,
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
       }}
@@ -52,12 +55,12 @@ function PreviewImage({ src, alt }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '70px',
-          height: '70px',
-          minWidth: '70px',
-          minHeight: '70px',
-          maxWidth: '70px',
-          maxHeight: '70px',
+          width: size,
+          height: size,
+          minWidth: size,
+          minHeight: size,
+          maxWidth: size,
+          maxHeight: size,
           backgroundColor: '#232a3b',
           lineHeight: 0,
         }}
@@ -68,9 +71,9 @@ function PreviewImage({ src, alt }) {
             alt={alt}
             loading="lazy"
             style={{
-              width: '70px',
-              height: '70px',
-              objectFit: 'cover',
+              width: size,
+              height: size,
+              objectFit: objectFit,
             }}
           />
         ) : null}
@@ -267,7 +270,7 @@ function Action({ event }) {
   );
 }
 
-function EventItem({ event }) {
+function EventItem({ event, imageSize }) {
   const rowStyles = {};
 
   if (event.isNew) {
@@ -276,14 +279,14 @@ function EventItem({ event }) {
 
   return (
     <TableRow style={rowStyles}>
-      <PreviewImage src={getPreviewImage(event)} alt={get(event, 'token.name')} />
+      <PreviewImage src={getPreviewImage(event)} alt={get(event, 'token.name')} imageSize={imageSize} />
       <Meta event={event} />
       <Action event={event} />
     </TableRow>
   );
 }
 
-function Feed({ events }) {
+function Feed({ events, imageSize }) {
   return (
     <div className="Feed">
       <Toolbar></Toolbar>
@@ -296,7 +299,7 @@ function Feed({ events }) {
         <Table>
           <TableBody>
             {(events || []).map((event) => (
-              <EventItem key={event.id} event={event} />
+              <EventItem key={event.id} event={event} imageSize={imageSize} />
             ))}
           </TableBody>
         </Table>
