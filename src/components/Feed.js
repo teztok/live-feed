@@ -26,7 +26,8 @@ import {
   isBestPrice,
   getTokenLink,
 } from '../libs/utils';
-import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER } from '../constants';
+import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
+import BuyButton from './BuyButton';
 
 const EVENT_CATEGORY_TO_CHIP_PROPS = {
   [EVENT_CATEGORY_MINT]: { color: 'primary', variant: 'outlined' },
@@ -184,6 +185,7 @@ function Meta({ event }) {
 
 function Action({ event }) {
   const tokenLink = getTokenLink(event);
+  const showBuyButton = EVENTS_WITH_BUY_SUPPORT.includes(event.type);
 
   return (
     <TableCell
@@ -218,7 +220,7 @@ function Action({ event }) {
           <>
             <Box
               sx={{
-                mr: 4,
+                mr: showBuyButton ? 4 : 1,
               }}
             >
               {isBestPrice(event) ? (
@@ -237,17 +239,7 @@ function Action({ event }) {
                 {formatTz(getSwapPrice(event))}
               </Typography>
             </Box>
-
-            <Button
-              color="secondary"
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                alert('not implemented yet');
-              }}
-            >
-              Buy
-            </Button>
+            {showBuyButton && <BuyButton event={event} />}
           </>
         )}
 
