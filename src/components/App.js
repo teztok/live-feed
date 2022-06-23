@@ -64,8 +64,8 @@ function App() {
   const { data } = useSWR(
     'feed',
     async () => {
-      const response = await fetch('https://livefeed-api.teztok.com/feed');
-      const newEvents = (await response.json()).data.events;
+      const response = await fetch('https://api.teztok.com/api/rest/livefeed');
+      const newEvents = (await response.json()).events;
 
       const newEventsById = keyBy(newEvents, 'id');
       const prevEventsById = keyBy(prevEvents, 'id');
