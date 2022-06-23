@@ -15,6 +15,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Toolbar from '@mui/material/Toolbar';
+import Stack from '@mui/material/Stack';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import ReactTimeAgo from 'react-time-ago';
 import {
   formatTz,
@@ -41,11 +43,11 @@ function UserLink({ address, name, twitter }) {
   return (
     <>
       {address ? (
-        <Link href={`https://objkt.com/profile/${address}`}>
-          <Typography variant="body2" component="strong" color="primary">
+        <Typography variant="body2" component="strong" color="primary">
+          <Link href={`https://objkt.com/profile/${address}`} color="inherit">
             {name}
-          </Typography>
-        </Link>
+          </Link>
+        </Typography>
       ) : null}
 
       {twitter ? (
@@ -65,7 +67,7 @@ function UserLink({ address, name, twitter }) {
 }
 
 function PreviewImage({ src, alt, imageSize }) {
-  const size = imageSize === 'large' ? '140px' : '70px';
+  const size = imageSize === 'large' ? '140px' : '90px';
   const objectFit = imageSize === 'large' ? 'contain' : 'cover';
 
   return (
@@ -129,75 +131,133 @@ function Meta({ event }) {
             pl: 3,
           }}
         >
-          <Tooltip title={event.type} arrow placement="top">
-            <Chip
-              label={event.category}
-              {...EVENT_CATEGORY_TO_CHIP_PROPS[event.category]}
+          <Stack spacing={1}>
+            <Box
               sx={{
-                mr: 2,
+                display: 'flex',
+                alignItems: 'center',
               }}
-            />
-          </Tooltip>
+            >
+              {event.category === EVENT_CATEGORY_MINT ? (
+                <>
+                  By&nbsp;
+                  <UserLink {...artistInfo} color="primary" />
+                </>
+              ) : null}
 
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="body2">
-              <ReactTimeAgo date={new Date(event.timestamp)} /> &nbsp;&nbsp;
-            </Typography>
+              {event.category === EVENT_CATEGORY_SWAP ? (
+                <>
+                  {!event.isSecondarySwap && (
+                    <>
+                      By&nbsp;
+                      <UserLink {...artistInfo} color="primary" />
+                    </>
+                  )}
+                </>
+              ) : null}
 
-            <UserLink {...artistInfo} />
-            {/* 
-            {event.category === EVENT_CATEGORY_OFFER ? (<>
-              &nbsp;offer from&nbsp;<UserLink {...getUserInfo(event, 'buyer')} />
-            </>) : null}
+              {event.category === EVENT_CATEGORY_OFFER ? (
+                <>
+                  Made by&nbsp;
+                  <UserLink {...getUserInfo(event, 'buyer')} />
+                </>
+              ) : null}
 
-            {event.category === EVENT_CATEGORY_SALE ? (<>
-              &nbsp;<UserLink {...getUserInfo(event, 'seller')} />&nbsp;➔&nbsp;<UserLink {...getUserInfo(event, 'buyer')} />
-            </>) : null}
-            */}
-          </Box>
+              {event.category === EVENT_CATEGORY_SALE ? (
+                <>
+                  From&nbsp;
+                  <UserLink {...getUserInfo(event, 'seller')} />
+                  &nbsp;
+                  <ArrowRightAltIcon />
+                  &nbsp;
+                  <UserLink {...getUserInfo(event, 'buyer')} />
+                </>
+              ) : null}
+
+              <Typography variant="body2" sx={{ ml: 1 }}>
+                <ReactTimeAgo date={new Date(event.timestamp)} />
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Tooltip title={event.type} arrow placement="top">
+                <Chip
+                  size="small"
+                  label={event.category}
+                  {...EVENT_CATEGORY_TO_CHIP_PROPS[event.category]}
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              </Tooltip>
+
+              {platform ? (
+                <Chip
+                  size="small"
+                  label={platform}
+                  color="secondary"
+                  variant="outlined"
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              ) : null}
+
+              {editions ? (
+                <Chip
+                  size="small"
+                  label={`${editions} Edition${editions > 1 ? 's' : ''}`}
+                  color="secondary"
+                  variant="outlined"
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              ) : null}
+
+              {event.category === EVENT_CATEGORY_SWAP && (
+                <>
+                  {event.isSecondarySwap ? (
+                    <Chip label="Secondary" color="warning" variant="contained" size="small" />
+                  ) : (
+                    <Chip label="Primary" color="primary" variant="contained" size="small" />
+                  )}
+                </>
+              )}
+            </Box>
+          </Stack>
         </Box>
+      </Box>
+    </TableCell>
+  );
+}
+
+function Creator({ event }) {
+  const artistInfo = getArtistInfo(event);
+
+  return (
+    <TableCell>
+      <Box
+        sx={{
+          display: 'flex',
+        }}
+      >
         <Box
           sx={{
             pr: 3,
             pl: 3,
           }}
         >
-          {platform ? (
-            <Chip
-              label={platform}
-              color="secondary"
-              variant="outlined"
-              sx={{
-                mr: 1,
-              }}
-            />
-          ) : null}
-
-          {editions ? (
-            <Chip
-              label={`${editions} Edition${editions > 1 ? 's' : ''}`}
-              color="secondary"
-              variant="outlined"
-              sx={{
-                mr: 1,
-              }}
-            />
-          ) : null}
-
-          {event.category === EVENT_CATEGORY_SWAP && (
-            <>
-              {event.isSecondarySwap ? (
-                <Chip label="Secondary" color="warning" variant="contained" />
-              ) : (
-                <Chip label="Primary" color="primary" variant="contained" />
-              )}
-            </>
-          )}
+          <Stack>
+            <Box>Artist</Box>
+            <Box>
+              <UserLink {...artistInfo} color="primary" />
+            </Box>
+          </Stack>
         </Box>
       </Box>
     </TableCell>
@@ -292,13 +352,14 @@ function EventItem({ event, imageSize }) {
   const rowStyles = {};
 
   if (event.isNew) {
-    rowStyles.backgroundColor = '#052C1F';
+    rowStyles.backgroundColor = '#2e3546';
   }
 
   return (
     <TableRow style={rowStyles}>
       <PreviewImage src={getPreviewImage(event)} alt={get(event, 'token.name')} imageSize={imageSize} />
       <Meta event={event} />
+      <Creator event={event} />
       <Action event={event} />
     </TableRow>
   );

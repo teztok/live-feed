@@ -142,6 +142,7 @@ function App() {
           </>
           <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
             <ToggleButtonGroup
+              size="small"
               value={filters.imageSize}
               exclusive
               onChange={(ev, newImageSize) => {
