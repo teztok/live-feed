@@ -17,7 +17,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Tooltip from '@mui/material/Tooltip';
 import FormHelperText from '@mui/material/FormHelperText';
 import { shortenTzAddress } from '../libs/utils';
-import { TEZTOK_API } from '../constants';
+import { TEZTOK_GRAPHQL_API } from '../constants';
 
 const GetUsersQuery = gql`
   query GetUsers($addresses: [String]) {
@@ -30,7 +30,7 @@ const GetUsersQuery = gql`
 `;
 
 function useGetUsers(addresses) {
-  const { data } = useSWR(['/get-users', addresses.join(',')], () => request(TEZTOK_API, GetUsersQuery, { addresses }), {
+  const { data } = useSWR(['/get-users', addresses.join(',')], () => request(TEZTOK_GRAPHQL_API, GetUsersQuery, { addresses }), {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     use: [laggy],

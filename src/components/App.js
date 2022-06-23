@@ -24,6 +24,7 @@ import {
   EVENT_CATEGORY_SWAP,
   EVENT_CATEGORY_SALE,
   EVENT_CATEGORY_OFFER,
+  TEZTOK_LIVEFEED_API,
 } from '../constants';
 import SyncButton from './SyncButton';
 import Feed from './Feed';
@@ -68,7 +69,7 @@ function App() {
   const { data } = useSWR(
     'feed',
     async () => {
-      const response = await fetch('https://api.teztok.com/api/rest/livefeed');
+      const response = await fetch(TEZTOK_LIVEFEED_API);
       const newEvents = (await response.json()).events;
 
       const newEventsById = keyBy(newEvents, 'id');
