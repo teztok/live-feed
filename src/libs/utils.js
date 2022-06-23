@@ -53,6 +53,17 @@ export function getArtistInfo(event) {
   };
 }
 
+export function getUserInfo(event, field) {
+  const profile = get(event, `${field}_profile`);
+  const address = get(event, `${field}_address`);
+
+  return {
+    address,
+    name: get(profile, 'alias') || shortenTzAddress(address),
+    twitter: get(profile, 'twitter'),
+  };
+}
+
 export function isTokenUpToDate(event) {
   if (event.type === 'FX_MINT_ISSUER_V3') {
     return true;

@@ -25,6 +25,7 @@ import {
   getSwapPrice,
   isBestPrice,
   getTokenLink,
+  getUserInfo,
 } from '../libs/utils';
 import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
 import BuyButton from './BuyButton';
@@ -35,6 +36,33 @@ const EVENT_CATEGORY_TO_CHIP_PROPS = {
   [EVENT_CATEGORY_OFFER]: { color: 'error', variant: 'outlined' },
   [EVENT_CATEGORY_SALE]: { color: 'info', variant: 'outlined' },
 };
+
+function UserLink({ address, name, twitter }) {
+  return (
+    <>
+      {address ? (
+        <Link href={`https://objkt.com/profile/${address}`}>
+          <Typography variant="body2" component="strong" color="primary">
+            {name}
+          </Typography>
+        </Link>
+      ) : null}
+
+      {twitter ? (
+        <IconButton
+          color="primary"
+          size="small"
+          href={`https://twitter.com/${twitter}`}
+          sx={{
+            ml: 0.15,
+          }}
+        >
+          <TwitterIcon fontSize="inherit" />
+        </IconButton>
+      ) : null}
+    </>
+  );
+}
 
 function PreviewImage({ src, alt, imageSize }) {
   const size = imageSize === 'large' ? '140px' : '70px';
@@ -121,26 +149,16 @@ function Meta({ event }) {
               <ReactTimeAgo date={new Date(event.timestamp)} /> &nbsp;&nbsp;
             </Typography>
 
-            {artistInfo.address ? (
-              <Link href={`https://objkt.com/profile/${artistInfo.address}`}>
-                <Typography variant="body2" component="strong" color="primary">
-                  {artistInfo.name}
-                </Typography>
-              </Link>
-            ) : null}
+            <UserLink {...artistInfo} />
+            {/* 
+            {event.category === EVENT_CATEGORY_OFFER ? (<>
+              &nbsp;offer from&nbsp;<UserLink {...getUserInfo(event, 'buyer')} />
+            </>) : null}
 
-            {artistInfo.twitter ? (
-              <IconButton
-                color="primary"
-                size="small"
-                href={`https://twitter.com/${artistInfo.twitter}`}
-                sx={{
-                  ml: 0.15,
-                }}
-              >
-                <TwitterIcon fontSize="inherit" />
-              </IconButton>
-            ) : null}
+            {event.category === EVENT_CATEGORY_SALE ? (<>
+              &nbsp;<UserLink {...getUserInfo(event, 'seller')} />&nbsp;➔&nbsp;<UserLink {...getUserInfo(event, 'buyer')} />
+            </>) : null}
+            */}
           </Box>
         </Box>
         <Box
@@ -171,7 +189,7 @@ function Meta({ event }) {
             />
           ) : null}
 
-          {event.category === 'SWAP' && (
+          {event.category === EVENT_CATEGORY_SWAP && (
             <>
               {event.isSecondarySwap ? (
                 <Chip label="Secondary" color="warning" variant="contained" />
@@ -219,7 +237,7 @@ function Action({ event }) {
           />
         )}
 
-        {event.category === 'SWAP' && (
+        {event.category === EVENT_CATEGORY_SWAP && (
           <>
             <Box
               sx={{
@@ -246,7 +264,7 @@ function Action({ event }) {
           </>
         )}
 
-        {(event.category === 'OFFER' || event.category === 'SALE') && (
+        {(event.category === EVENT_CATEGORY_OFFER || event.category === EVENT_CATEGORY_SALE) && (
           <>
             <Box
               sx={{
