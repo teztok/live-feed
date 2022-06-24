@@ -44,7 +44,7 @@ function UserLink({ address, name, twitter }) {
     <>
       {address ? (
         <Typography variant="body2" component="strong" color="primary">
-          <Link href={`https://objkt.com/profile/${address}`} color="inherit">
+          <Link href={`https://objkt.com/profile/${address}`} target="_blank" rel="noopener noreferrer" color="inherit">
             {name}
           </Link>
         </Typography>
@@ -55,6 +55,8 @@ function UserLink({ address, name, twitter }) {
           color="primary"
           size="small"
           href={`https://twitter.com/${twitter}`}
+          target="_blank"
+          rel="noopener noreferrer"
           sx={{
             ml: 0.15,
           }}

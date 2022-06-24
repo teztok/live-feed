@@ -1,6 +1,4 @@
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -40,16 +38,6 @@ function Filters({ filters, onChange, onBackClick }) {
               <Typography variant="body1" component="p">
                 <strong>Watchlist</strong>
               </Typography>
-              <FormControlLabel
-                control={<Switch checked={filters.allowlistOnly} size="small" sx={{ mr: 0 }} />}
-                onChange={() => {
-                  onChange({ ...filters, allowlistOnly: !filters.allowlistOnly });
-                }}
-                sx={{
-                  ml: 'auto',
-                  mr: 0,
-                }}
-              />
             </Box>
             <UserPicker
               addresses={filters.followedAddresses}

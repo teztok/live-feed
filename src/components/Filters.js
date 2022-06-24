@@ -219,8 +219,28 @@ function Filters({ filters, onChange, onWatchlistClick }) {
           <Box
             sx={{
               m: 4,
+              ml: 4,
             }}
           >
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                mb: 2,
+              }}
+            >
+              <strong>Watchlist</strong>
+            </Typography>
+
+            <ToggleFilter
+              checked={filters.allowlistOnly}
+              onChange={(checked) => {
+                onChange({ ...filters, allowlistOnly: checked });
+              }}
+            >
+              Enable
+            </ToggleFilter>
+
             <Button
               variant="contained"
               onClick={() => {
@@ -228,6 +248,7 @@ function Filters({ filters, onChange, onWatchlistClick }) {
               }}
               sx={{
                 width: '100%',
+                mt: 2,
               }}
             >
               Edit Watchlist ({filters.followedAddresses.length})
