@@ -31,6 +31,7 @@ import {
 } from '../libs/utils';
 import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
 import BuyButton from './BuyButton';
+import useImage from '../hooks/use-image';
 
 const EVENT_CATEGORY_TO_CHIP_PROPS = {
   [EVENT_CATEGORY_MINT]: { color: 'primary', variant: 'outlined' },
@@ -69,8 +70,39 @@ function UserLink({ address, name, twitter }) {
 }
 
 function PreviewImage({ src, alt, imageSize }) {
+  const { status } = useImage(src);
   const size = imageSize === 'large' ? '140px' : '90px';
   const objectFit = imageSize === 'large' ? 'contain' : 'cover';
+  let content;
+
+  if (!src || status === 'loading') {
+    content = (
+      <CircularProgress
+        color="primary"
+        size={14}
+        thickness={5}
+        sx={{
+          mr: 2,
+          ml: 2,
+        }}
+      />
+    );
+  } else if (status === 'failed') {
+    content = 'N/A';
+  } else {
+    content = (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        style={{
+          width: size,
+          height: size,
+          objectFit: objectFit,
+        }}
+      />
+    );
+  }
 
   return (
     <TableCell
@@ -97,18 +129,7 @@ function PreviewImage({ src, alt, imageSize }) {
           lineHeight: 0,
         }}
       >
-        {src ? (
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            style={{
-              width: size,
-              height: size,
-              objectFit: objectFit,
-            }}
-          />
-        ) : null}
+        {content}
       </Box>
     </TableCell>
   );
