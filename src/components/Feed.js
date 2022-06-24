@@ -389,9 +389,12 @@ function EventItem({ event, imageSize }) {
 }
 
 function Feed({ events, imageSize }) {
-  return (
-    <div className="Feed">
-      <Toolbar></Toolbar>
+  let content;
+
+  if (!events || !events.length) {
+    content = <Box sx={{ mt: 2, flexGrow: 1, textAlign: 'center' }}>No Events...</Box>;
+  } else {
+    content = (
       <TableContainer
         sx={{
           p: 4,
@@ -406,6 +409,13 @@ function Feed({ events, imageSize }) {
           </TableBody>
         </Table>
       </TableContainer>
+    );
+  }
+
+  return (
+    <div className="Feed">
+      <Toolbar />
+      {content}
     </div>
   );
 }
