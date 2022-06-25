@@ -392,7 +392,7 @@ function Feed({ events, imageSize }) {
   let content;
 
   if (!events || !events.length) {
-    content = <Box sx={{ mt: 2, flexGrow: 1, textAlign: 'center' }}>No Events...</Box>;
+    content = <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '90vh' }}>It's pretty silent right now...</Box>;
   } else {
     content = (
       <TableContainer

@@ -222,24 +222,35 @@ function Filters({ filters, onChange, onWatchlistClick }) {
               ml: 4,
             }}
           >
-            <Typography
-              variant="body1"
-              component="p"
+            <Box
               sx={{
-                mb: 2,
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
               }}
             >
-              <strong>Watchlist</strong>
-            </Typography>
+              <Typography
+                variant="body1"
+                component="p"
+              >
+                <strong>Watchlist</strong>
+              </Typography>
 
-            <ToggleFilter
-              checked={filters.allowlistOnly}
-              onChange={(checked) => {
-                onChange({ ...filters, allowlistOnly: checked });
-              }}
-            >
-              Enable
-            </ToggleFilter>
+              <Box
+                sx={{
+                  ml: 'auto',
+                  mr: -3,
+                }}
+              >
+                <ToggleFilter
+                  checked={filters.allowlistOnly}
+                  onChange={(checked) => {
+                    onChange({ ...filters, allowlistOnly: checked });
+                  }}
+                >
+                </ToggleFilter>
+              </Box>
+            </Box>
 
             <Button
               variant="contained"
@@ -254,6 +265,43 @@ function Filters({ filters, onChange, onWatchlistClick }) {
               Edit Watchlist ({filters.followedAddresses.length})
             </Button>
           </Box>
+
+{/* 
+          <Divider />
+
+          <Box
+            sx={{
+              m: 4,
+              ml: 4,
+            }}
+          >
+            <Typography
+                variant="body1"
+                component="p"
+                sx={{
+                  mb: 2,
+                }}
+              >
+                <strong>Donate</strong>
+              </Typography>
+            <Typography
+                variant="body2"
+                component="p"
+            >
+              If you want to support this community project, feel free to donate any amount to this Tezos address: 
+            </Typography>
+            <Typography
+                variant="body2"
+                component="p"
+                sx={{
+                  mt: 1,
+                }}
+            >
+              <strong>TEZOS_ADDRESS</strong>
+            </Typography>
+          </Box>
+*/}
+
         </FormGroup>
       </Box>
     </div>

@@ -11,8 +11,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
+import Chip from '@mui/material/Chip';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import Sidebar from './Sidebar';
 import { getFiltersFromLocalStorage, storeFiltersInLocalStorage, getPlatform } from '../libs/utils';
 import {
@@ -138,7 +140,17 @@ function App() {
       <AppBar position="fixed">
         <Toolbar>
           <>
-            <strong>NFT LiveFeed</strong>&nbsp;by TezTok
+            <strong>NFT LiveFeed</strong>&nbsp;by TezTok <Chip size="small" label="BETA" variant="outlined" sx={{ ml: 1 }}></Chip>
+            <IconButton 
+              size="small"
+              href="https://github.com/teztok/live-feed"
+              target="_blank"
+              sx={{
+                ml: 1,
+              }}
+            >
+              <GitHubIcon fontSize="inherit" />
+            </IconButton>
           </>
           <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
             <ToggleButtonGroup
