@@ -266,7 +266,6 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             </Button>
           </Box>
 
-{/* 
           <Divider />
 
           <Box
@@ -297,10 +296,9 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                   mt: 1,
                 }}
             >
-              <strong>TEZOS_ADDRESS</strong>
+              <strong>tz1WWKoicGTSCASDJJikZGys7wffEQyuqdys</strong>
             </Typography>
           </Box>
-*/}
 
         </FormGroup>
       </Box>
