@@ -205,6 +205,15 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             </ToggleFilter>
 
             <ToggleFilter
+              checked={filters.showTypedTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showTypedTokens: checked });
+              }}
+            >
+              typed
+            </ToggleFilter>
+
+            <ToggleFilter
               checked={filters.showOtherTokens}
               onChange={(checked) => {
                 onChange({ ...filters, showOtherTokens: checked });
@@ -229,10 +238,7 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                 width: '100%',
               }}
             >
-              <Typography
-                variant="body1"
-                component="p"
-              >
+              <Typography variant="body1" component="p">
                 <strong>Watchlist</strong>
               </Typography>
 
@@ -247,8 +253,7 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                   onChange={(checked) => {
                     onChange({ ...filters, allowlistOnly: checked });
                   }}
-                >
-                </ToggleFilter>
+                ></ToggleFilter>
               </Box>
             </Box>
 
@@ -275,31 +280,27 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             }}
           >
             <Typography
-                variant="body1"
-                component="p"
-                sx={{
-                  mb: 2,
-                }}
-              >
-                <strong>Donate</strong>
-              </Typography>
-            <Typography
-                variant="body2"
-                component="p"
+              variant="body1"
+              component="p"
+              sx={{
+                mb: 2,
+              }}
             >
-              If you want to support this community project, feel free to donate any amount to this Tezos address: 
+              <strong>Donate</strong>
+            </Typography>
+            <Typography variant="body2" component="p">
+              If you want to support this community project, feel free to donate any amount to this Tezos address:
             </Typography>
             <Typography
-                variant="body2"
-                component="p"
-                sx={{
-                  mt: 1,
-                }}
+              variant="body2"
+              component="p"
+              sx={{
+                mt: 1,
+              }}
             >
               <strong>tz1WWKoicGTSCASDJJikZGys7wffEQyuqdys</strong>
             </Typography>
           </Box>
-
         </FormGroup>
       </Box>
     </div>

@@ -31,6 +31,7 @@ import {
 } from '../libs/utils';
 import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
 import BuyButton from './BuyButton';
+import TokenDescriptionTooltip from './TokenDescriptionTooltip';
 import useImage from '../hooks/use-image';
 
 const EVENT_CATEGORY_TO_CHIP_PROPS = {
@@ -69,7 +70,7 @@ function UserLink({ address, name, twitter }) {
   );
 }
 
-function PreviewImage({ src, alt, imageSize }) {
+function PreviewImage({ src, description, imageSize }) {
   const { status } = useImage(src);
   const size = imageSize === 'large' ? '140px' : '90px';
   const objectFit = imageSize === 'large' ? 'contain' : 'cover';
@@ -90,10 +91,10 @@ function PreviewImage({ src, alt, imageSize }) {
   } else if (status === 'failed') {
     content = 'N/A';
   } else {
-    content = (
+    const img = (
       <img
         src={src}
-        alt={alt}
+        alt={description}
         loading="lazy"
         style={{
           width: size,
@@ -102,6 +103,16 @@ function PreviewImage({ src, alt, imageSize }) {
         }}
       />
     );
+
+    if (description) {
+      content = (
+        <TokenDescriptionTooltip title={<pre>{description}</pre>} arrow placement="right">
+          {img}
+        </TokenDescriptionTooltip>
+      );
+    } else {
+      content = img;
+    }
   }
 
   return (
@@ -380,7 +391,11 @@ function EventItem({ event, imageSize }) {
 
   return (
     <TableRow style={rowStyles}>
-      <PreviewImage src={getPreviewImage(event)} alt={get(event, 'token.name')} imageSize={imageSize} />
+      <PreviewImage
+        src={getPreviewImage(event)}
+        description={get(event, 'token.platform') === 'TYPED' ? get(event, 'token.description') : ''}
+        imageSize={imageSize}
+      />
       <Meta event={event} />
       <Creator event={event} />
       <Action event={event} />
@@ -392,7 +407,11 @@ function Feed({ events, imageSize }) {
   let content;
 
   if (!events || !events.length) {
-    content = <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '90vh' }}>It's pretty silent right now...</Box>;
+    content = (
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '90vh' }}>
+        It's pretty silent right now...
+      </Box>
+    );
   } else {
     content = (
       <TableContainer

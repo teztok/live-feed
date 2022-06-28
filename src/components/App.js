@@ -56,6 +56,7 @@ function filterEvents(events, filters) {
     .filter((event) => (!filters.showVersumTokens ? getPlatform(event) !== 'VERSUM' : true))
     .filter((event) => (!filters.showFxhashTokens ? getPlatform(event) !== 'FXHASH' : true))
     .filter((event) => (!filters.show8bidouTokens ? getPlatform(event) !== '8BIDOU' : true))
+    .filter((event) => (!filters.showTypedTokens ? getPlatform(event) !== 'TYPED' : true))
     .filter((event) => (!filters.showOtherTokens ? getPlatform(event) !== null : true))
     .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);
@@ -141,7 +142,7 @@ function App() {
         <Toolbar>
           <>
             <strong>NFT LiveFeed</strong>&nbsp;by TezTok <Chip size="small" label="BETA" variant="outlined" sx={{ ml: 1 }}></Chip>
-            <IconButton 
+            <IconButton
               size="small"
               href="https://github.com/teztok/live-feed"
               target="_blank"

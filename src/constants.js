@@ -10,6 +10,7 @@ export const DEFAULT_FILTERS = {
   showVersumTokens: true,
   showFxhashTokens: true,
   show8bidouTokens: true,
+  showTypedTokens: true,
   showOtherTokens: true,
   allowlistOnly: false,
   itemLimit: 100,
@@ -23,6 +24,7 @@ export const MINT_EVENTS = [
   'HEN_MINT',
   'VERSUM_MINT',
   'OBJKT_MINT_ARTIST',
+  'TYPED_MINT',
 ];
 
 export const SWAP_EVENTS = [
@@ -33,6 +35,7 @@ export const SWAP_EVENTS = [
   'VERSUM_SWAP',
   'FX_LISTING',
   'OBJKT_ASK_V2',
+  'TYPED_SWAP',
 ];
 
 export const OFFER_EVENTS = ['OBJKT_OFFER', 'VERSUM_MAKE_OFFER', 'FX_OFFER_V3'];
