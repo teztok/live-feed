@@ -106,7 +106,7 @@ function PreviewImage({ src, description, imageSize }) {
 
     if (description) {
       content = (
-        <TokenDescriptionTooltip title={<pre>{description}</pre>} arrow placement="right">
+        <TokenDescriptionTooltip title={description} arrow placement="right">
           {img}
         </TokenDescriptionTooltip>
       );
