@@ -1,7 +1,7 @@
-import { useWallet } from '@tezos-contrib/react-wallet-provider';
-import { getWallet } from '../libs/wallet';
-import { TEIA_CONTRACT_MARKETPLACE, OBJKT_CONTRACT_MARKETPLACE_V2 } from '../constants';
 import Button from '@mui/material/Button';
+import { TEIA_CONTRACT_MARKETPLACE, OBJKT_CONTRACT_MARKETPLACE_V2 } from '../constants';
+import { getWallet } from '../libs/wallet';
+import { useWallet } from '../libs/wallet-provider';
 
 export default function BuyButton({ event }) {
   const { client, activeAccount } = useWallet();

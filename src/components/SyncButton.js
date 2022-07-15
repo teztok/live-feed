@@ -1,8 +1,8 @@
-import { useWallet } from '@tezos-contrib/react-wallet-provider';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { shortenTzAddress } from '../libs/utils';
+import { useWallet } from '../libs/wallet-provider';
 
 export default function SyncButton() {
   const { activeAccount, connect, disconnect } = useWallet();
