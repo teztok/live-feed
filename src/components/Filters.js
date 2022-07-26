@@ -210,7 +210,16 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                 onChange({ ...filters, showTypedTokens: checked });
               }}
             >
-              typed
+              TYPED
+            </ToggleFilter>
+
+            <ToggleFilter
+              checked={filters.show8scriboTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, show8scriboTokens: checked });
+              }}
+            >
+              8SCRIBO
             </ToggleFilter>
 
             <ToggleFilter
