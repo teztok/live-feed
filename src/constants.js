@@ -14,6 +14,8 @@ export const DEFAULT_FILTERS = {
   show8scriboTokens: true,
   showOtherTokens: true,
   allowlistOnly: false,
+  enableTags: false,
+  tags: '',
   itemLimit: 100,
   followedAddresses: [],
 };

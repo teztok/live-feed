@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import get from 'lodash/get';
+import intersection from 'lodash/intersection';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import AppBar from '@mui/material/AppBar';
@@ -45,7 +46,10 @@ function isEventOfFollowedAddress(event, followedAddresses) {
 }
 
 function filterEvents(events, filters) {
+  const tags = (filters.tags.match(/\b(\w+)\b/g) || []).map((tag) => tag.toLowerCase());
+
   return events
+    .filter((event) => (filters.enableTags && tags.length ? intersection(tags, event.tags).length : true))
     .filter((event) => (!filters.showMints ? event.category !== EVENT_CATEGORY_MINT : true))
     .filter((event) => (!filters.showSwaps ? event.category !== EVENT_CATEGORY_SWAP : true))
     .filter((event) => (event.category === EVENT_CATEGORY_SWAP && !filters.showSecondarySwaps ? !event.isSecondarySwap : true))
@@ -98,6 +102,7 @@ function App() {
 
         return {
           ...event,
+          tags: get(event, 'token.tags', []).map(({ tag }) => tag.toLowerCase()),
           category,
           isSecondarySwap,
           isNew: event.level === latestLevel,

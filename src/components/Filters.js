@@ -106,13 +106,22 @@ function Filters({ filters, onChange, onWatchlistClick }) {
                   mr: -3,
                 }}
               >
-                <ToggleFilter></ToggleFilter>
+                <ToggleFilter
+                  checked={filters.enableTags}
+                  onChange={(checked) => {
+                    onChange({ ...filters, enableTags: checked });
+                  }}
+                />
               </Box>
             </Box>
             <TextField
               label="Tags"
               variant="outlined"
               size="small"
+              value={filters.tags}
+              onChange={(ev) => {
+                onChange({ ...filters, tags: ev.target.value });
+              }}
               sx={{
                 mt: 2,
                 width: '100%',
