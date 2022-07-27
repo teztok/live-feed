@@ -180,7 +180,7 @@ function App() {
               setShowSettings(true);
             }}
             sx={{
-              ml: 2,
+              ml: 5,
             }}
           >
             <MenuIcon />

@@ -11,6 +11,9 @@ import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 function ToggleFilter({ checked, disabled, onChange, children }) {
   return (
@@ -36,45 +39,94 @@ function Filters({ filters, onChange, onWatchlistClick }) {
     <div className="Filters">
       <Box>
         <FormGroup>
-          <Typography
-            variant="body1"
-            component="p"
+          <Box
             sx={{
               m: 4,
-              mb: 3,
+              ml: 4,
             }}
           >
-            <strong>Amount of events</strong>
-          </Typography>
-          <FormControl
-            size="small"
-            sx={{
-              m: 4,
-              mt: 0,
-            }}
-          >
-            <InputLabel id="limit">Limit</InputLabel>
-            <Select
-              labelId="limit"
-              value={filters.itemLimit}
-              label="Limit"
-              onChange={(ev) => {
-                onChange({ ...filters, itemLimit: ev.target.value });
+            <Typography variant="body2" component="p">
+              We would like to keep this project <strong>free of charge</strong> for the Tezos community. Feel free to support us by{' '}
+              <strong>donating</strong> any amount according to your means:
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
               }}
             >
-              <MenuItem value={25}>25</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
-              <MenuItem value={100}>100</MenuItem>
-              <MenuItem value={200}>200</MenuItem>
-            </Select>
+              <Typography
+                variant="body2"
+                component="p"
+                color="primary"
+                sx={{
+                  mt: 0.7,
+                }}
+              >
+                <strong>tz1WWKoicGTSCASDJJikZGys7wffEQyuqdys</strong>
+              </Typography>
+              <IconButton
+                size="small"
+                color="primary"
+                variant="outlined"
+                sx={{
+                  mt: 0.6,
+                  ml: 1,
+                }}
+                onClick={() => {
+                  navigator.clipboard.writeText('tz1WWKoicGTSCASDJJikZGys7wffEQyuqdys');
+                }}
+              >
+                <ContentCopyIcon fontSize="inherit" />
+              </IconButton>
+            </Box>
+          </Box>
+
+          <Divider />
+
+          <Box
+            sx={{
+              m: 4,
+              ml: 4,
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Typography variant="body1" component="p">
+                <strong>Filter by Tags</strong>
+              </Typography>
+
+              <Box
+                sx={{
+                  ml: 'auto',
+                  mr: -3,
+                }}
+              >
+                <ToggleFilter></ToggleFilter>
+              </Box>
+            </Box>
+            <TextField
+              label="Tags"
+              variant="outlined"
+              size="small"
+              sx={{
+                mt: 2,
+                width: '100%',
+              }}
+            />
             <FormHelperText
               sx={{
                 mt: 2,
+                ml: 2,
               }}
             >
-              Warning: The higher you set this limit, the lower the overall browser performance will most probably be.
+              Enter one tag or separate multiple tags by comma. Toggle the filter with the switch button above.
             </FormHelperText>
-          </FormControl>
+          </Box>
 
           <Divider />
 
@@ -282,34 +334,45 @@ function Filters({ filters, onChange, onWatchlistClick }) {
 
           <Divider />
 
-          <Box
+          <Typography
+            variant="body1"
+            component="p"
             sx={{
               m: 4,
-              ml: 4,
+              mb: 3,
             }}
           >
-            <Typography
-              variant="body1"
-              component="p"
-              sx={{
-                mb: 2,
+            <strong>Amount of events</strong>
+          </Typography>
+          <FormControl
+            size="small"
+            sx={{
+              m: 4,
+              mt: 0,
+            }}
+          >
+            <InputLabel id="limit">Limit</InputLabel>
+            <Select
+              labelId="limit"
+              value={filters.itemLimit}
+              label="Limit"
+              onChange={(ev) => {
+                onChange({ ...filters, itemLimit: ev.target.value });
               }}
             >
-              <strong>Donate</strong>
-            </Typography>
-            <Typography variant="body2" component="p">
-              If you want to support this community project, feel free to donate any amount to this Tezos address:
-            </Typography>
-            <Typography
-              variant="body2"
-              component="p"
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+              <MenuItem value={100}>100</MenuItem>
+              <MenuItem value={200}>200</MenuItem>
+            </Select>
+            <FormHelperText
               sx={{
-                mt: 1,
+                mt: 2,
               }}
             >
-              <strong>tz1WWKoicGTSCASDJJikZGys7wffEQyuqdys</strong>
-            </Typography>
-          </Box>
+              Warning: The higher you set this limit, the lower the overall browser performance will most probably be.
+            </FormHelperText>
+          </FormControl>
         </FormGroup>
       </Box>
     </div>

@@ -70,7 +70,8 @@ function UserLink({ address, name, twitter }) {
   );
 }
 
-function PreviewImage({ src, description, imageSize }) {
+function PreviewImage({ src, description, imageSize, event }) {
+  const tokenLink = getTokenLink(event);
   const { status } = useImage(src);
   const size = imageSize === 'large' ? '140px' : '90px';
   const objectFit = imageSize === 'large' ? 'contain' : 'cover';
@@ -140,7 +141,9 @@ function PreviewImage({ src, description, imageSize }) {
           lineHeight: 0,
         }}
       >
-        {content}
+        <Link href={tokenLink} target="_blank">
+          {content}
+        </Link>
       </Box>
     </TableCell>
   );
@@ -395,6 +398,7 @@ function EventItem({ event, imageSize }) {
         src={getPreviewImage(event)}
         description={get(event, 'token.platform') === 'TYPED' ? get(event, 'token.description') : ''}
         imageSize={imageSize}
+        event={event}
       />
       <Meta event={event} />
       <Creator event={event} />
