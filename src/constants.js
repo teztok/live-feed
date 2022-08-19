@@ -12,6 +12,7 @@ export const DEFAULT_FILTERS = {
   show8bidouTokens: true,
   showTypedTokens: true,
   show8scriboTokens: true,
+  showRaribleTokens: true,
   showOtherTokens: true,
   allowlistOnly: false,
   enableTags: false,
@@ -29,6 +30,7 @@ export const MINT_EVENTS = [
   'OBJKT_MINT_ARTIST',
   'TYPED_MINT',
   '8SCRIBO_MINT',
+  'RARIBLE_MINT',
 ];
 
 export const SWAP_EVENTS = [

@@ -4,7 +4,7 @@ import isNumber from 'lodash/isNumber';
 function getIpfsUri(event) {
   const platform = get(event, 'token.platform');
 
-  if (platform === 'HEN') {
+  if (platform === 'HEN' || platform === 'RARIBLE') {
     return get(event, 'token.display_uri');
   }
 
@@ -25,6 +25,7 @@ export function getPreviewImage(event) {
   if (!ipfsUri) {
     return null; // TODO: placeholder image
   }
+
   const ipfsHash = ipfsUri.replace('ipfs://', '');
 
   if (get(event, 'token.platform') === 'FXHASH') {
@@ -124,6 +125,9 @@ export function getTokenLink(event) {
   switch (platform) {
     case 'HEN': {
       return `https://teia.art/objkt/${token_id}`;
+    }
+    case 'RARIBLE': {
+      return `https://rarible.com/token/tezos/${fa2_address}:${token_id}`;
     }
     case 'FXHASH': {
       return `https://www.fxhash.xyz/gentk/${token_id}`;

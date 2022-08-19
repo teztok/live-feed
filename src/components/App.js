@@ -62,6 +62,7 @@ function filterEvents(events, filters) {
     .filter((event) => (!filters.show8bidouTokens ? getPlatform(event) !== '8BIDOU' : true))
     .filter((event) => (!filters.showTypedTokens ? getPlatform(event) !== 'TYPED' : true))
     .filter((event) => (!filters.show8scriboTokens ? getPlatform(event) !== '8SCRIBO' : true))
+    .filter((event) => (!filters.showRaribleTokens ? getPlatform(event) !== 'RARIBLE' : true))
     .filter((event) => (!filters.showOtherTokens ? getPlatform(event) !== null : true))
     .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
     .slice(0, filters.itemLimit);

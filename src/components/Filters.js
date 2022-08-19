@@ -284,6 +284,15 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             </ToggleFilter>
 
             <ToggleFilter
+              checked={filters.showRaribleTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showRaribleTokens: checked });
+              }}
+            >
+              RARIBLE
+            </ToggleFilter>
+
+            <ToggleFilter
               checked={filters.showOtherTokens}
               onChange={(checked) => {
                 onChange({ ...filters, showOtherTokens: checked });
