@@ -19,6 +19,7 @@ export const DEFAULT_FILTERS = {
   tags: '',
   itemLimit: 100,
   followedAddresses: [],
+  followedStrictMode: true,
 };
 
 export const MINT_EVENTS = [
@@ -56,6 +57,8 @@ export const EVENT_CATEGORY_OFFER = 'OFFER';
 
 export const TEIA_CONTRACT_MARKETPLACE = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
 export const OBJKT_CONTRACT_MARKETPLACE_V2 = 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC';
+
+export const MAX_PRICE = 300000000;
 
 export const TEZTOK_GRAPHQL_API = 'https://api.teztok.com/v1/graphql';
 export const TEZTOK_LIVEFEED_API = 'https://livefeed-proxy.teztok.com/feed';

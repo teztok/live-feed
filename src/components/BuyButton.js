@@ -1,14 +1,16 @@
 import Button from '@mui/material/Button';
-import { TEIA_CONTRACT_MARKETPLACE, OBJKT_CONTRACT_MARKETPLACE_V2 } from '../constants';
+import Tooltip from '@mui/material/Tooltip';
+import { TEIA_CONTRACT_MARKETPLACE, OBJKT_CONTRACT_MARKETPLACE_V2, MAX_PRICE } from '../constants';
+import { formatTz } from '../libs/utils';
 import { getWallet } from '../libs/wallet';
 import { useWallet } from '../libs/wallet-provider';
 
 export default function BuyButton({ event }) {
   const { client, activeAccount } = useWallet();
 
-  return (
+  const button = (
     <Button
-      disabled={!activeAccount}
+      disabled={!activeAccount || event.price > MAX_PRICE}
       onClick={async () => {
         const wallet = getWallet(client);
 
@@ -39,4 +41,14 @@ export default function BuyButton({ event }) {
       Buy
     </Button>
   );
+
+  if (event.price > MAX_PRICE) {
+    return (
+      <Tooltip arrow title={`Max price of ${formatTz(MAX_PRICE)} exceeded.`}>
+        <span>{button}</span>
+      </Tooltip>
+    );
+  }
+
+  return button;
 }

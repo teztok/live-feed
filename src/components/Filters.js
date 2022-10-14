@@ -348,6 +348,32 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             >
               Edit Watchlist ({filters.followedAddresses.length})
             </Button>
+
+            <Box
+              sx={{
+                mt: 2,
+                ml: 'auto',
+              }}
+            >
+              <ToggleFilter
+                disabled={!filters.allowlistOnly}
+                checked={filters.followedStrictMode}
+                onChange={(checked) => {
+                  onChange({ ...filters, followedStrictMode: checked });
+                }}
+              >
+                Strict mode
+              </ToggleFilter>
+
+              <FormHelperText
+                sx={{
+                  mt: 0,
+                }}
+              >
+                Strict mode limits the feed to tokens where the watchlist contains the artist address. This excludes events where an address
+                from the list is involved but isn't the token artist.
+              </FormHelperText>
+            </Box>
           </Box>
 
           <Divider />

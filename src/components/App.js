@@ -31,18 +31,27 @@ import {
 } from '../constants';
 import SyncButton from './SyncButton';
 import Feed from './Feed';
+import IntroDialog from './IntroDialog';
 import laggy from '../libs/swr-laggy-middleware';
 
-function isEventOfFollowedAddress(event, followedAddresses) {
-  return followedAddresses.some((address) => {
-    return (
-      get(event, 'artist_address') === address ||
-      get(event, 'buyer_address') === address ||
-      get(event, 'token.artist_address') === address ||
-      (get(event, 'token.creators') || []).includes(address) ||
-      (get(event, 'token.royalty_receivers') || []).map(({ receiver_address }) => receiver_address).includes(address)
-    );
-  });
+function isEventOfFollowedAddress(event, followedAddresses, strictMode) {
+  if (strictMode) {
+    return followedAddresses.some((address) => {
+      return (
+        get(event, 'token.artist_address') === address &&
+        (get(event, 'token.is_verified_artist') || get(event, 'token.platform') === 'FXHASH')
+      );
+    });
+  } else {
+    return followedAddresses.some((address) => {
+      return (
+        get(event, 'buyer_address') === address ||
+        (get(event, 'token.artist_address') === address &&
+          (get(event, 'token.is_verified_artist') || get(event, 'token.platform') === 'FXHASH')) ||
+        (get(event, 'token.royalty_receivers') || []).map(({ receiver_address }) => receiver_address).includes(address)
+      );
+    });
+  }
 }
 
 function filterEvents(events, filters) {
@@ -64,7 +73,9 @@ function filterEvents(events, filters) {
     .filter((event) => (!filters.show8scriboTokens ? getPlatform(event) !== '8SCRIBO' : true))
     .filter((event) => (!filters.showRaribleTokens ? getPlatform(event) !== 'RARIBLE' : true))
     .filter((event) => (!filters.showOtherTokens ? getPlatform(event) !== null : true))
-    .filter((event) => (filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses) : true))
+    .filter((event) =>
+      filters.allowlistOnly ? isEventOfFollowedAddress(event, filters.followedAddresses, filters.followedStrictMode) : true
+    )
     .slice(0, filters.itemLimit);
 }
 
@@ -145,6 +156,7 @@ function App() {
 
   return (
     <div className="App">
+      <IntroDialog />
       <AppBar position="fixed">
         <Toolbar>
           <>
