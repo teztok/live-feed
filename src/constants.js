@@ -13,6 +13,7 @@ export const DEFAULT_FILTERS = {
   showTypedTokens: true,
   show8scriboTokens: true,
   showRaribleTokens: true,
+  showKalamintTokens: true,
   showOtherTokens: true,
   allowlistOnly: false,
   enableTags: false,
@@ -23,6 +24,7 @@ export const DEFAULT_FILTERS = {
 };
 
 export const MINT_EVENTS = [
+  'KALAMINT_MINT',
   '8BID_8X8_COLOR_MINT',
   '8BID_24X24_COLOR_MINT',
   '8BID_24X24_MONOCHROME_MINT',
@@ -35,6 +37,7 @@ export const MINT_EVENTS = [
 ];
 
 export const SWAP_EVENTS = [
+  'KALAMINT_LIST_TOKEN',
   '8BID_8X8_COLOR_SWAP',
   '8BID_24X24_COLOR_SWAP',
   'HEN_SWAP_V2',

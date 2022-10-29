@@ -293,6 +293,15 @@ function Filters({ filters, onChange, onWatchlistClick }) {
             </ToggleFilter>
 
             <ToggleFilter
+              checked={filters.showKalamintTokens}
+              onChange={(checked) => {
+                onChange({ ...filters, showKalamintTokens: checked });
+              }}
+            >
+              KALAMINT
+            </ToggleFilter>
+
+            <ToggleFilter
               checked={filters.showOtherTokens}
               onChange={(checked) => {
                 onChange({ ...filters, showOtherTokens: checked });

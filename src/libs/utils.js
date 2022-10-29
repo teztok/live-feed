@@ -141,6 +141,9 @@ export function getTokenLink(event) {
     case '8SCRIBO': {
       return `https://8scribo.xyz/haikus/${token_id}`;
     }
+    case 'KALAMINT': {
+      return `https://kalamint.io/${fa2_address}/token/${token_id}`;
+    }
     case '8BIDOU': {
       if (fa2_address === 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp') {
         return `https://www.8bidou.com/listing/?id=${token_id}`;
