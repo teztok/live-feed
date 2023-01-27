@@ -1,23 +1,23 @@
-import get from 'lodash/get';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import PaidIcon from '@mui/icons-material/Paid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import CircularProgress from '@mui/material/CircularProgress';
-import Toolbar from '@mui/material/Toolbar';
-import Stack from '@mui/material/Stack';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import ReactTimeAgo from 'react-time-ago';
+import get from "lodash/get";
+import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import PaidIcon from "@mui/icons-material/Paid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import CircularProgress from "@mui/material/CircularProgress";
+import Toolbar from "@mui/material/Toolbar";
+import Stack from "@mui/material/Stack";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import ReactTimeAgo from "react-time-ago";
 import {
   formatTz,
   getPreviewImage,
@@ -28,17 +28,24 @@ import {
   isBestPrice,
   getTokenLink,
   getUserInfo,
-} from '../libs/utils';
-import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
-import BuyButton from './BuyButton';
-import TokenDescriptionTooltip from './TokenDescriptionTooltip';
-import useImage from '../hooks/use-image';
+  getMime,
+} from "../libs/utils";
+import {
+  EVENT_CATEGORY_MINT,
+  EVENT_CATEGORY_SWAP,
+  EVENT_CATEGORY_SALE,
+  EVENT_CATEGORY_OFFER,
+  EVENTS_WITH_BUY_SUPPORT,
+} from "../constants";
+import BuyButton from "./BuyButton";
+import TokenDescriptionTooltip from "./TokenDescriptionTooltip";
+import useImage from "../hooks/use-image";
 
 const EVENT_CATEGORY_TO_CHIP_PROPS = {
-  [EVENT_CATEGORY_MINT]: { color: 'primary', variant: 'outlined' },
-  [EVENT_CATEGORY_SWAP]: { color: 'primary' },
-  [EVENT_CATEGORY_OFFER]: { color: 'error', variant: 'outlined' },
-  [EVENT_CATEGORY_SALE]: { color: 'info', variant: 'outlined' },
+  [EVENT_CATEGORY_MINT]: { color: "primary", variant: "outlined" },
+  [EVENT_CATEGORY_SWAP]: { color: "primary" },
+  [EVENT_CATEGORY_OFFER]: { color: "error", variant: "outlined" },
+  [EVENT_CATEGORY_SALE]: { color: "info", variant: "outlined" },
 };
 
 function UserLink({ address, name, twitter }) {
@@ -46,7 +53,11 @@ function UserLink({ address, name, twitter }) {
     <>
       {address ? (
         <Typography variant="body2" component="strong" color="primary">
-          <Link href={`https://objkt.com/profile/${address}`} target="_blank" rel="noopener noreferrer" color="inherit">
+          <Link
+            href={`https://objkt.com/profile/${address}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit">
             {name}
           </Link>
         </Typography>
@@ -61,8 +72,7 @@ function UserLink({ address, name, twitter }) {
           rel="noopener noreferrer"
           sx={{
             ml: 0.15,
-          }}
-        >
+          }}>
           <TwitterIcon fontSize="inherit" />
         </IconButton>
       ) : null}
@@ -73,11 +83,11 @@ function UserLink({ address, name, twitter }) {
 function PreviewImage({ src, description, imageSize, event }) {
   const tokenLink = getTokenLink(event);
   const { status } = useImage(src);
-  const size = imageSize === 'large' ? '140px' : '90px';
-  const objectFit = imageSize === 'large' ? 'contain' : 'cover';
+  const size = imageSize === "large" ? "140px" : "90px";
+  const objectFit = imageSize === "large" ? "contain" : "cover";
   let content;
 
-  if (!src || status === 'loading') {
+  if (!src || status === "loading") {
     content = (
       <CircularProgress
         color="primary"
@@ -89,8 +99,8 @@ function PreviewImage({ src, description, imageSize, event }) {
         }}
       />
     );
-  } else if (status === 'failed') {
-    content = 'N/A';
+  } else if (status === "failed") {
+    content = "N/A";
   } else {
     const img = (
       <img
@@ -123,24 +133,22 @@ function PreviewImage({ src, description, imageSize, event }) {
         width: size,
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
-      }}
-    >
+      }}>
       <Box
         sx={{
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           width: size,
           height: size,
           minWidth: size,
           minHeight: size,
           maxWidth: size,
           maxHeight: size,
-          backgroundColor: '#232a3b',
+          backgroundColor: "#232a3b",
           lineHeight: 0,
-        }}
-      >
+        }}>
         <Link href={tokenLink} target="_blank">
           {content}
         </Link>
@@ -152,29 +160,28 @@ function PreviewImage({ src, description, imageSize, event }) {
 function Meta({ event }) {
   const artistInfo = getArtistInfo(event);
   const platform = getPlatform(event);
-  const editions = get(event, 'token.fx_collection_editions') || get(event, 'token.editions');
+  const mime = getMime(event);
+  const editions =
+    get(event, "token.fx_collection_editions") || get(event, "token.editions");
 
   return (
     <TableCell>
       <Box
         sx={{
-          display: 'flex',
-        }}
-      >
+          display: "flex",
+        }}>
         <Box
           sx={{
-            display: 'flex',
+            display: "flex",
             pr: 3,
             pl: 3,
-          }}
-        >
+          }}>
           <Stack spacing={1}>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+                display: "flex",
+                alignItems: "center",
+              }}>
               {event.category === EVENT_CATEGORY_MINT ? (
                 <>
                   By&nbsp;
@@ -196,18 +203,18 @@ function Meta({ event }) {
               {event.category === EVENT_CATEGORY_OFFER ? (
                 <>
                   Made by&nbsp;
-                  <UserLink {...getUserInfo(event, 'buyer')} />
+                  <UserLink {...getUserInfo(event, "buyer")} />
                 </>
               ) : null}
 
               {event.category === EVENT_CATEGORY_SALE ? (
                 <>
                   From&nbsp;
-                  <UserLink {...getUserInfo(event, 'seller')} />
+                  <UserLink {...getUserInfo(event, "seller")} />
                   &nbsp;
                   <ArrowRightAltIcon />
                   &nbsp;
-                  <UserLink {...getUserInfo(event, 'buyer')} />
+                  <UserLink {...getUserInfo(event, "buyer")} />
                 </>
               ) : null}
 
@@ -217,10 +224,9 @@ function Meta({ event }) {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+                display: "flex",
+                alignItems: "center",
+              }}>
               <Tooltip title={event.type} arrow placement="top">
                 <Chip
                   size="small"
@@ -231,6 +237,18 @@ function Meta({ event }) {
                   }}
                 />
               </Tooltip>
+
+              {mime ? (
+                <Chip
+                  size="small"
+                  label={mime}
+                  color="secondary"
+                  variant="outlined"
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              ) : null}
 
               {platform ? (
                 <Chip
@@ -247,7 +265,7 @@ function Meta({ event }) {
               {editions ? (
                 <Chip
                   size="small"
-                  label={`${editions} Edition${editions > 1 ? 's' : ''}`}
+                  label={`${editions} Edition${editions > 1 ? "s" : ""}`}
                   color="secondary"
                   variant="outlined"
                   sx={{
@@ -259,9 +277,19 @@ function Meta({ event }) {
               {event.category === EVENT_CATEGORY_SWAP && (
                 <>
                   {event.isSecondarySwap ? (
-                    <Chip label="Secondary" color="warning" variant="contained" size="small" />
+                    <Chip
+                      label="Secondary"
+                      color="warning"
+                      variant="contained"
+                      size="small"
+                    />
                   ) : (
-                    <Chip label="Primary" color="primary" variant="contained" size="small" />
+                    <Chip
+                      label="Primary"
+                      color="primary"
+                      variant="contained"
+                      size="small"
+                    />
                   )}
                 </>
               )}
@@ -280,15 +308,13 @@ function Creator({ event }) {
     <TableCell>
       <Box
         sx={{
-          display: 'flex',
-        }}
-      >
+          display: "flex",
+        }}>
         <Box
           sx={{
             pr: 3,
             pl: 3,
-          }}
-        >
+          }}>
           <Stack>
             <Box>Artist</Box>
             <Box>
@@ -311,17 +337,15 @@ function Action({ event }) {
       sx={{
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
-      }}
-    >
+      }}>
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
           pr: 3,
           pl: 3,
-        }}
-      >
+        }}>
         {!isTokenUpToDate(event) && (
           <CircularProgress
             color="primary"
@@ -339,15 +363,14 @@ function Action({ event }) {
             <Box
               sx={{
                 mr: showBuyButton ? 4 : 1,
-              }}
-            >
+              }}>
               {isBestPrice(event) ? (
                 <Tooltip title="Best Price" arrow placement="top">
                   <PaidIcon
                     color="primary"
                     sx={{
                       mr: 1,
-                      transform: 'translate3d(0,6px,0)',
+                      transform: "translate3d(0,6px,0)",
                     }}
                   />
                 </Tooltip>
@@ -361,13 +384,13 @@ function Action({ event }) {
           </>
         )}
 
-        {(event.category === EVENT_CATEGORY_OFFER || event.category === EVENT_CATEGORY_SALE) && (
+        {(event.category === EVENT_CATEGORY_OFFER ||
+          event.category === EVENT_CATEGORY_SALE) && (
           <>
             <Box
               sx={{
                 mr: 1,
-              }}
-            >
+              }}>
               <Typography variant="body2" component="strong" color="primary">
                 {formatTz(event.price)}
               </Typography>
@@ -376,7 +399,13 @@ function Action({ event }) {
         )}
 
         {tokenLink ? (
-          <Button href={tokenLink} target="_blank" rel="noopener noreferrer" variant="contained" size="small" sx={{ ml: 2 }}>
+          <Button
+            href={tokenLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="contained"
+            size="small"
+            sx={{ ml: 2 }}>
             View
           </Button>
         ) : null}
@@ -389,14 +418,18 @@ function EventItem({ event, imageSize }) {
   const rowStyles = {};
 
   if (event.isNew) {
-    rowStyles.backgroundColor = '#2e3546';
+    rowStyles.backgroundColor = "#2e3546";
   }
 
   return (
     <TableRow style={rowStyles}>
       <PreviewImage
         src={getPreviewImage(event)}
-        description={get(event, 'token.platform') === 'TYPED' ? get(event, 'token.description') : ''}
+        description={
+          get(event, "token.platform") === "TYPED"
+            ? get(event, "token.description")
+            : ""
+        }
         imageSize={imageSize}
         event={event}
       />
@@ -412,7 +445,14 @@ function Feed({ events, imageSize }) {
 
   if (!events || !events.length) {
     content = (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '90vh' }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "90vh",
+        }}>
         It's pretty silent right now...
       </Box>
     );
@@ -421,9 +461,8 @@ function Feed({ events, imageSize }) {
       <TableContainer
         sx={{
           p: 4,
-          mt: '-10px',
-        }}
-      >
+          mt: "-10px",
+        }}>
         <Table>
           <TableBody>
             {(events || []).map((event) => (
