@@ -114,16 +114,6 @@ export function getPlatform(event) {
   return platform;
 }
 
-export function getMime(event) {
-  const platform = get(event, 'token.mime_type');
-
-  if (platform) {
-    return platform;
-  }
-
-  return platform;
-}
-
 export function getTokenLink(event) {
   const { token_id, fa2_address } = event;
   const platform = get(event, 'token.platform');

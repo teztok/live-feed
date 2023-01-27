@@ -28,7 +28,6 @@ import {
   isBestPrice,
   getTokenLink,
   getUserInfo,
-  getMime,
 } from '../libs/utils';
 import { EVENT_CATEGORY_MINT, EVENT_CATEGORY_SWAP, EVENT_CATEGORY_SALE, EVENT_CATEGORY_OFFER, EVENTS_WITH_BUY_SUPPORT } from '../constants';
 import BuyButton from './BuyButton';
@@ -153,7 +152,7 @@ function PreviewImage({ src, description, imageSize, event }) {
 function Meta({ event }) {
   const artistInfo = getArtistInfo(event);
   const platform = getPlatform(event);
-  const mime = getMime(event);
+  const mime = get(event, 'token.mime_type');
   const editions = get(event, 'token.fx_collection_editions') || get(event, 'token.editions');
 
   return (
