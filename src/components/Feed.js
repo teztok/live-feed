@@ -152,6 +152,7 @@ function PreviewImage({ src, description, imageSize, event }) {
 function Meta({ event }) {
   const artistInfo = getArtistInfo(event);
   const platform = getPlatform(event);
+  const mime = get(event, 'token.mime_type');
   const editions = get(event, 'token.fx_collection_editions') || get(event, 'token.editions');
 
   return (
@@ -231,6 +232,18 @@ function Meta({ event }) {
                   }}
                 />
               </Tooltip>
+
+              {mime ? (
+                <Chip
+                  size="small"
+                  label={mime}
+                  color="secondary"
+                  variant="outlined"
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              ) : null}
 
               {platform ? (
                 <Chip
@@ -412,7 +425,15 @@ function Feed({ events, imageSize }) {
 
   if (!events || !events.length) {
     content = (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '90vh' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '90vh',
+        }}
+      >
         It's pretty silent right now...
       </Box>
     );
