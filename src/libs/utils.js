@@ -130,7 +130,11 @@ export function getTokenLink(event) {
       return `https://rarible.com/token/tezos/${fa2_address}:${token_id}`;
     }
     case 'FXHASH': {
-      return `https://www.fxhash.xyz/gentk/${token_id}`;
+      if (fa2_address === 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr') {
+        return `https://www.fxhash.xyz/gentk/${token_id}`;
+      } else {
+        return `https://www.fxhash.xyz/gentk/FX1-${token_id}`;
+      }
     }
     case 'VERSUM': {
       return `https://versum.xyz/token/versum/${token_id}`;
