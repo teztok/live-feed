@@ -131,9 +131,9 @@ export function getTokenLink(event) {
     }
     case 'FXHASH': {
       if (fa2_address === 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr') {
-        return `https://www.fxhash.xyz/gentk/${token_id}`;
-      } else {
         return `https://www.fxhash.xyz/gentk/FX1-${token_id}`;
+      } else {
+        return `https://www.fxhash.xyz/gentk/${token_id}`;
       }
     }
     case 'VERSUM': {
