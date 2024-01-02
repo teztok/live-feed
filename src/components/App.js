@@ -127,7 +127,7 @@ function App() {
       return events;
     },
     {
-      refreshInterval: 1000,
+      refreshInterval: 5000,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       use: [laggy],
